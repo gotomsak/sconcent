@@ -1,3 +1,5 @@
 .env
 images
 db/.env
+db/db
+db/mongo_db

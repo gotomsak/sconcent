@@ -3,8 +3,8 @@ package main
 import (
 	"net/http"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/sessions"
-	"github.com/gotomsak/sconcent/testcheck"
 	"github.com/gotomsak/sconcent/utils"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
@@ -24,7 +24,10 @@ func router() *echo.Echo {
 
 	e.GET("/get_id", GetID)
 	// e.GET("/check_answer", le)
-
+	e.GET("/check_session", CheckSession)
+	e.POST("/signin", Signin)
+	e.POST("/signup", Signup)
+	e.GET("/signout", Signout)
 	e.POST("/save_concent", SaveConcentration)
 	return e
 }

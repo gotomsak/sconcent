@@ -50,11 +50,11 @@ func Signin(c echo.Context) error {
 	defer db.Close()
 	u := user.User{}
 	us := new(user.UserSignin)
-	if err := c.Bind(u); err != nil {
+	if err := c.Bind(us); err != nil {
 		return c.JSON(http.StatusInternalServerError, "Faild Bind")
 	}
 
-	db.Where("email = ?", u.Email).Find(&u)
+	db.Where("email = ?", us.Email).Find(&u)
 
 	passcheck := bcrypt.CompareHashAndPassword([]byte(u.PasswordDigest), []byte(us.Password))
 
