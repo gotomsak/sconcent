@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gotomsak/sconcent/user"
+	"github.com/gotomsak/sconcent/models"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -31,7 +31,8 @@ func SqlConnect() (database *gorm.DB) {
 	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?charset=utf8mb4&parseTime=true&loc=Asia%2FTokyo"
 	db, err := gorm.Open(DBMS, CONNECT)
 
-	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&user.User{})
+	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.User{})
+	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.GetIDLog{})
 	// db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&AnswerResult{})
 	// db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&AnswerResultSection{})
 	// db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&Questionnaire{})

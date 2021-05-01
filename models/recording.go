@@ -1,6 +1,7 @@
-package main
+package models
 
 import (
+	"github.com/jinzhu/gorm"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -8,6 +9,7 @@ import (
 type SaveConcentrationBind struct {
 	Type          string             `json:"type"`
 	ID            primitive.ObjectID `json:"id" bson:"_id,omitempty"`
+	UserID        int                `json:"user_id"`
 	Measurement   string             `json:"measurement"`
 	Concentration []interface{}      `json:"concentration"`
 }
@@ -19,7 +21,8 @@ type GetSaveImagesIDBind struct {
 
 // GetID postされてきたdataのbind
 type GetIDBind struct {
-	Type string `json:"type"`
+	Type   string `json:"type"`
+	UserID int    `json:"user_id"`
 	// ID       primitive.ObjectID `json:"id" bson:"_id"`
 	// ID                string        `json:"id"`
 	Measurement   string        `json:"measurement"`
@@ -28,19 +31,27 @@ type GetIDBind struct {
 
 // GetIDSave 保存
 type GetIDSave struct {
-	Type string             `json:"type"`
-	ID   primitive.ObjectID `json:"id" bson:"_id"`
+	Type   string             `json:"type"`
+	ID     primitive.ObjectID `json:"id" bson:"_id"`
+	UserID int                `json:"user_id"`
 	// ID                string        `json:"id"`
 	Measurement   string        `json:"measurement"`
 	Concentration []interface{} `json:"concentration"`
 }
 
-// GetIDRes レスポンス
-type GetIDRes struct {
-	ID primitive.ObjectID `json:"id" bson:"_id"`
+// GetIDLog IDを取得したときの履歴
+type GetIDLog struct {
+	gorm.Model
+	UserID     int    `json:"user_id" gorm:"not null"`
+	ConcDataID string `json:"conc_data_id" bson:"conc_data_id" gorm:"null"`
 }
 
-// GetSaveImagesIDRes レスポンス
-type GetSaveImagesIDRes struct {
-	ID uint64 `json:"id"`
+// GetIDRes レスポンス
+type GetIDRes struct {
+	ConcDataID primitive.ObjectID `json:"id" bson:"_id"`
 }
+
+// // GetSaveImagesIDRes レスポンス
+// type GetSaveImagesIDRes struct {
+// 	ConcDataID int64 `json:"id"`
+// }

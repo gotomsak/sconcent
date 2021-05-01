@@ -5,6 +5,8 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/sessions"
+	"github.com/gotomsak/sconcent/controllers/recording"
+	"github.com/gotomsak/sconcent/controllers/user"
 	"github.com/gotomsak/sconcent/utils"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
@@ -22,13 +24,13 @@ func router() *echo.Echo {
 	}))
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
 
-	e.GET("/get_id", GetID)
+	e.POST("/get_id", recording.GetID)
 	// e.GET("/check_answer", le)
-	e.GET("/check_session", CheckSession)
-	e.POST("/signin", Signin)
-	e.POST("/signup", Signup)
-	e.GET("/signout", Signout)
-	e.POST("/save_concent", SaveConcentration)
+	e.GET("/check_session", user.CheckSession)
+	e.POST("/signin", user.Signin)
+	e.POST("/signup", user.Signup)
+	e.GET("/signout", user.Signout)
+	e.POST("/save_concent", recording.SaveConcentration)
 	return e
 }
 

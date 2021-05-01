@@ -1,4 +1,4 @@
-package main
+package user
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/sessions"
-	"github.com/gotomsak/sconcent/user"
+	"github.com/gotomsak/sconcent/models"
 	"github.com/gotomsak/sconcent/utils"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
@@ -18,8 +18,8 @@ func Signup(c echo.Context) error {
 	db := utils.SqlConnect()
 	defer db.Close()
 
-	us := new(user.UserSignup)
-	u := user.User{}
+	us := new(models.UserSignup)
+	u := models.User{}
 	if err := c.Bind(us); err != nil {
 		return c.JSON(http.StatusInternalServerError, "Faild Bind")
 	}
@@ -48,8 +48,8 @@ func Signup(c echo.Context) error {
 func Signin(c echo.Context) error {
 	db := utils.SqlConnect()
 	defer db.Close()
-	u := user.User{}
-	us := new(user.UserSignin)
+	u := models.User{}
+	us := new(models.UserSignin)
 	if err := c.Bind(us); err != nil {
 		return c.JSON(http.StatusInternalServerError, "Faild Bind")
 	}
@@ -72,7 +72,7 @@ func Signin(c echo.Context) error {
 			return c.NoContent(http.StatusInternalServerError)
 		}
 
-		return c.JSON(http.StatusOK, user.UserSend{UserID: u.ID, Username: u.Username})
+		return c.JSON(http.StatusOK, models.UserSend{UserID: u.ID, Username: u.Username})
 	}
 	return passcheck
 }
