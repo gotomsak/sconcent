@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gotomsak/sconcent/models"
 	"github.com/gotomsak/sconcent/utils"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
@@ -21,7 +22,7 @@ func GetQuestionIds(c echo.Context) error {
 
 	db := utils.SqlConnect()
 	defer db.Close()
-	questions := Question{}
+	questions := models.Question{}
 	db.Last(&questions)
 	var count int
 	db.Table("questions").Count(&count)
@@ -49,7 +50,7 @@ func GetQuestionIds(c echo.Context) error {
 			break
 		}
 	}
-	gqi := GetQuestionIDs{
+	gqi := models.GetQuestionIDs{
 		QuestionIDs: newQuestionList,
 		SolvedIDs:   solveList,
 	}

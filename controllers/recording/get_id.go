@@ -17,6 +17,7 @@ func GetID(c echo.Context) error {
 	var token string = ""
 
 	sess, err := session.Get("session", c)
+
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "Error")
 	}
