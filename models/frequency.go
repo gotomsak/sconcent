@@ -1,5 +1,7 @@
 package models
 
+import "go.mongodb.org/mongo-driver/bson/primitive"
+
 // MaxFrequencyData 中身
 type MaxFrequencyData struct {
 	MaxBlink     float64       `json:"max_blink"`
@@ -9,9 +11,10 @@ type MaxFrequencyData struct {
 
 // MaxFrequency bindしてそのまま保存
 type MaxFrequency struct {
-	UserID           int              `json:"user_id"`
-	MaxFrequencyData MaxFrequencyData `json:"max_frequency_data"`
-	Environment      string           `json:"environment"`
+	ID               primitive.ObjectID `json:"id" bson:"_id"`
+	UserID           int                `json:"user_id"`
+	MaxFrequencyData MaxFrequencyData   `json:"max_frequency_data"`
+	Environment      string             `json:"environment"`
 }
 
 // MinFrequencyData 中身
@@ -23,9 +26,10 @@ type MinFrequencyData struct {
 
 // MinFrequency bindしてそのまま保存
 type MinFrequency struct {
-	UserID           int              `json:"user_id"`
-	MinFrequencyData MinFrequencyData `json:"min_frequency_data"`
-	Environment      string           `json:"environment"`
+	ID               primitive.ObjectID `json:"id" bson:"_id"`
+	UserID           int                `json:"user_id"`
+	MinFrequencyData MinFrequencyData   `json:"min_frequency_data"`
+	Environment      string             `json:"environment"`
 }
 
 type GetFrequencyResData struct {

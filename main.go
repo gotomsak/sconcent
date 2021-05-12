@@ -34,7 +34,7 @@ func router() *echo.Echo {
 	e.POST("/signup", user.Signup)
 	e.GET("/signout", user.Signout)
 	e.POST("/save_concent", recording.SaveConcentration)
-
+	e.POST("/save_face_point", recording.SaveFacePoint)
 	return e
 }
 

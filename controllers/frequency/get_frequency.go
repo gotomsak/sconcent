@@ -32,26 +32,39 @@ func GetFrequency(c echo.Context) error {
 	mc, ctx := utils.MongoConnect()
 	defer mc.Disconnect(ctx)
 
+	result := new(models.GetFrequencyResData)
+
 	dbColl := mc.Database("gotoSys").Collection("maxFrequency")
 
 	cur, err := dbColl.Find(context.Background(), bson.D{{Key: "userid", Value: sess.Values["user_id"]}})
 	if err == mongo.ErrNoDocuments {
-		return c.String(http.StatusNotFound, "not frequency")
+		return c.String(http.StatusNotFound, "not max frequency")
 	}
-	result := new(models.GetFrequencyResData)
 
 	for cur.Next(ctx) {
 		resmax := models.MaxFrequency{}
 		err := cur.Decode(&resmax)
 		if err != nil {
 			log.Fatal(err)
-
 		}
 		result.MaxFrequency = append(result.MaxFrequency, resmax)
-		// fmt.Println(resmax)
 	}
 
-	// fmt.Println(res)
+	dbColl = mc.Database("gotoSys").Collection("minFrequency")
+
+	cur, err = dbColl.Find(context.Background(), bson.D{{Key: "userid", Value: sess.Values["user_id"]}})
+	if err == mongo.ErrNoDocuments {
+		return c.String(http.StatusNotFound, "not min frequency")
+	}
+	for cur.Next(ctx) {
+		resmin := models.MinFrequency{}
+		err := cur.Decode(&resmin)
+		if err != nil {
+			log.Fatal(err)
+		}
+		result.MinFrequency = append(result.MinFrequency, resmin)
+	}
+
 	return c.JSON(http.StatusOK, result)
 
 }

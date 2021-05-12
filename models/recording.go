@@ -9,6 +9,7 @@ import (
 type SaveConcentrationBind struct {
 	Type          string             `json:"type"`
 	ID            primitive.ObjectID `json:"id" bson:"_id,omitempty"`
+	FacePointAll  primitive.ObjectID `json:"face_point_id" bson:"_face_point_id"`
 	UserID        int                `json:"user_id"`
 	Measurement   string             `json:"measurement"`
 	Concentration []interface{}      `json:"concentration"`
@@ -31,9 +32,10 @@ type GetIDBind struct {
 
 // GetIDSave 保存
 type GetIDSave struct {
-	Type   string             `json:"type"`
-	ID     primitive.ObjectID `json:"id" bson:"_id"`
-	UserID int                `json:"user_id"`
+	Type         string             `json:"type"`
+	ID           primitive.ObjectID `json:"id" bson:"_id"`
+	FacePointAll primitive.ObjectID `json:"face_point_id" bson:"_face_point_id"`
+	UserID       int                `json:"user_id"`
 	// ID                string        `json:"id"`
 	Measurement   string        `json:"measurement"`
 	Concentration []interface{} `json:"concentration"`
@@ -48,7 +50,18 @@ type GetIDLog struct {
 
 // GetIDRes レスポンス
 type GetIDRes struct {
-	ConcDataID primitive.ObjectID `json:"id" bson:"_id"`
+	ConcDataID  primitive.ObjectID `json:"conc_id" bson:"_conc_id"`
+	FacePointID primitive.ObjectID `json:"face_point_id" bson:"_face_point_id"`
+}
+
+type GetFacePointIDSave struct {
+	ID           primitive.ObjectID `json:"id" bson:"_id"`
+	FacePointAll []interface{}      `json:"face_point_all" bson:"face_point_all"`
+}
+
+type PostFacePointSave struct {
+	ID           primitive.ObjectID `json:"id" bson:"_id"`
+	FacePointAll []interface{}      `json:"face_point_all" bson:"face_point_all"`
 }
 
 // // GetSaveImagesIDRes レスポンス
