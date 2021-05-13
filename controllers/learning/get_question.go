@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"regexp"
 
+	"github.com/gotomsak/sconcent/models"
 	"github.com/gotomsak/sconcent/utils"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
@@ -19,8 +20,8 @@ func GetQuestion(c echo.Context) error {
 	}
 	db := utils.SqlConnect()
 	defer db.Close()
-	question := Question{}
-	questionSend := QuestionSend{}
+	question := models.Question{}
+	questionSend := models.QuestionSend{}
 	questionID := c.QueryParam("id")
 	uquestionID := utils.StringToUint(questionID)
 	db.First(&question, uquestionID)

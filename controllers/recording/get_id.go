@@ -17,6 +17,7 @@ func GetID(c echo.Context) error {
 	var token string = ""
 
 	sess, err := session.Get("session", c)
+
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "Error")
 	}
@@ -42,19 +43,33 @@ func GetID(c echo.Context) error {
 
 	dbColl := mc.Database(getID.Type).Collection(getID.Measurement)
 	newID := primitive.NewObjectID()
+	facePointNewID := primitive.NewObjectID()
 	request := models.GetIDSave{
 		ID:            newID,
 		UserID:        getID.UserID,
 		Type:          getID.Type,
 		Measurement:   getID.Measurement,
 		Concentration: getID.Concentration,
+		FacePointAll:  facePointNewID,
 	}
-	res, err := dbColl.InsertOne(context.Background(), request)
+	_, err = dbColl.InsertOne(context.Background(), request)
 	if err != nil {
 		fmt.Println(err)
 		return c.JSON(500, "insert error")
 	}
-	fmt.Println(res.InsertedID)
+
+	dbColl = mc.Database("gotoSys").Collection("facePoint")
+
+	facePointRequest := models.GetFacePointIDSave{
+		ID: facePointNewID,
+		// FacePointAll: []interface{}{},
+	}
+
+	_, err = dbColl.InsertOne(context.Background(), facePointRequest)
+	if err != nil {
+		fmt.Println(err)
+		return c.JSON(500, "insert error")
+	}
 
 	db := utils.SqlConnect()
 	defer db.Close()
@@ -65,5 +80,5 @@ func GetID(c echo.Context) error {
 	}
 	err = db.Create(&getIDLog).Error
 
-	return c.JSON(200, &models.GetIDRes{ConcDataID: newID})
+	return c.JSON(200, &models.GetIDRes{ConcDataID: newID, FacePointID: facePointNewID})
 }

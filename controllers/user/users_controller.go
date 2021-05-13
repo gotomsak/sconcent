@@ -68,6 +68,7 @@ func Signin(c echo.Context) error {
 			Secure:   true,
 		}
 		sess.Values["authenticated"] = true
+		sess.Values["user_id"] = u.ID
 		if err := sess.Save(c.Request(), c.Response()); err != nil {
 			return c.NoContent(http.StatusInternalServerError)
 		}
@@ -89,6 +90,7 @@ func Signout(c echo.Context) error {
 func CheckSession(c echo.Context) error {
 	sess, _ := session.Get("session", c)
 	log.Print(sess.Values["authenticated"])
+
 	if b, _ := sess.Values["authenticated"]; b != true {
 		return c.String(http.StatusUnauthorized, "401")
 	}

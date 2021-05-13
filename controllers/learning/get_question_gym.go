@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gotomsak/sconcent/models"
 	"github.com/gotomsak/sconcent/utils"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
@@ -19,14 +20,14 @@ func GetQuestionGym(c echo.Context) error {
 	}
 	db := utils.SqlConnect()
 	defer db.Close()
-	qg := new(GetQuestionGymBind)
+	qg := new(models.GetQuestionGymBind)
 	if err = c.Bind(qg); err != nil {
 		return c.String(http.StatusInternalServerError, "The format is different")
 	}
 	fmt.Println(qg.NowLevel)
 	// level := qg.NowLevel / 2
 	// levelI := int(level)
-	questionsSub := QuestionsSub{}
+	questionsSub := models.QuestionsSub{}
 
 	db.Where("level = ?", qg.NowLevel).Order("rand()").Find(&questionsSub)
 	// Res := GetQuestionGymRes{}

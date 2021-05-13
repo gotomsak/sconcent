@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/gotomsak/sconcent/models"
 	"github.com/gotomsak/sconcent/testcheck"
 	"github.com/gotomsak/sconcent/utils"
 	"github.com/labstack/echo-contrib/session"
@@ -21,8 +22,8 @@ func CheckAnswer(c echo.Context) error {
 		return c.String(http.StatusUnauthorized, "401")
 	}
 
-	question := Question{}
-	ca := new(CheckAnswerBind)
+	question := models.Question{}
+	ca := new(models.CheckAnswerBind)
 	if err = c.Bind(ca); err != nil {
 		return c.String(http.StatusInternalServerError, "The format is different")
 	}
@@ -34,7 +35,7 @@ func CheckAnswer(c echo.Context) error {
 		defer mc.Disconnect(ctx)
 
 		results := mc.Database("fe-concentration").Collection("concentration")
-		concData := ConcentrationData{
+		concData := models.ConcentrationData{
 			ConcentrationData: ca.ConcentrationData,
 		}
 		res, err := results.InsertOne(context.Background(), concData)
@@ -65,7 +66,7 @@ func CheckAnswer(c echo.Context) error {
 	if question.AimgPath == ca.UserAnswer || question.Ans == ca.UserAnswer {
 		result = "correct"
 	}
-	answerResult := AnswerResult{
+	answerResult := models.AnswerResult{
 		UserID:            ca.UserID,
 		UserAnswer:        ca.UserAnswer,
 		AnswerResult:      result,
@@ -93,7 +94,7 @@ func CheckAnswer(c echo.Context) error {
 		return err
 	}
 
-	answerResultSend := AnswerResultSend{
+	answerResultSend := models.AnswerResultSend{
 		AnswerResultID: answerResult.ID,
 		Result:         result,
 		Answer:         answer,
