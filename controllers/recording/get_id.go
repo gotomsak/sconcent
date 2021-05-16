@@ -50,7 +50,7 @@ func GetID(c echo.Context) error {
 		Type:          getID.Type,
 		Measurement:   getID.Measurement,
 		Concentration: getID.Concentration,
-		FacePointAll:  facePointNewID,
+		// FacePointAll:  facePointNewID,
 	}
 	_, err = dbColl.InsertOne(context.Background(), request)
 	if err != nil {

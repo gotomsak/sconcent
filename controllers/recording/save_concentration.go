@@ -38,6 +38,7 @@ func SaveConcentration(c echo.Context) error {
 	if err := c.Bind(newData); err != nil {
 		return c.JSON(500, "concentratioon not found")
 	}
+	fmt.Println(newData)
 
 	mc, ctx := utils.MongoConnect()
 	defer mc.Disconnect(ctx)
@@ -52,9 +53,14 @@ func SaveConcentration(c echo.Context) error {
 		return c.JSON(500, "find error")
 	}
 
-	oldData.Concentration = append(oldData.Concentration, newData.Concentration)
-
-	res, err := dbColl.UpdateOne(context.Background(), filter, bson.M{"$set": bson.M{"concentration": oldData.Concentration}})
+	// oldData.Concentration = append(oldData.Concentration, newData.Concentration)
+	// oldData.Concentration = newData.Concentration
+	// bson.D{{"$set", bson.D{{"concentration", newData.Concentration}}}}
+	res, err := dbColl.UpdateOne(context.Background(), filter, bson.M{"$set": bson.M{"concentration": newData.Concentration}})
+	if err != nil {
+		fmt.Println(err)
+		return c.JSON(500, "update error")
+	}
 	fmt.Println(res)
 	return c.JSON(200, "ok")
 }

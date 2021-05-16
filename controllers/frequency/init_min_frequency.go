@@ -9,6 +9,7 @@ import (
 	"github.com/gotomsak/sconcent/utils"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func InitMinFrequency(c echo.Context) error {
@@ -22,6 +23,8 @@ func InitMinFrequency(c echo.Context) error {
 	}
 
 	initData := new(models.MinFrequency)
+	initData.ID = primitive.NewObjectID()
+
 	if err := c.Bind(initData); err != nil {
 		return c.JSON(500, "initData not found")
 	}
