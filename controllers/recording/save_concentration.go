@@ -56,7 +56,7 @@ func SaveConcentration(c echo.Context) error {
 	// oldData.Concentration = append(oldData.Concentration, newData.Concentration)
 	// oldData.Concentration = newData.Concentration
 	// bson.D{{"$set", bson.D{{"concentration", newData.Concentration}}}}
-	res, err := dbColl.UpdateOne(context.Background(), filter, bson.M{"$set": bson.M{"concentration": newData.Concentration}})
+	res, err := dbColl.UpdateOne(context.Background(), filter, bson.M{"$set": bson.M{"concentration": newData.Concentration, "memo": newData.Memo}})
 	if err != nil {
 		fmt.Println(err)
 		return c.JSON(500, "update error")

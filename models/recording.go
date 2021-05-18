@@ -23,6 +23,8 @@ type SaveConcentrationBind struct {
 	ID            primitive.ObjectID `json:"id" bson:"_id,omitempty"`
 	UserID        int                `json:"user_id"`
 	Measurement   string             `json:"measurement"`
+	Work          string             `json:"work"`
+	Memo          string             `json:"memo"`
 	Concentration Concentration      `json:"concentration" bson:"concentration"`
 }
 
@@ -32,6 +34,8 @@ type GetConcentrationRes struct {
 	ID            primitive.ObjectID `json:"id" bson:"_id,omitempty"`
 	UserID        int                `json:"user_id"`
 	Measurement   string             `json:"measurement"`
+	Work          string             `json:"work"`
+	Memo          string             `json:"memo"`
 	Concentration Concentration      `json:"concentration"`
 }
 
@@ -47,6 +51,8 @@ type GetIDBind struct {
 	// ID       primitive.ObjectID `json:"id" bson:"_id"`
 	// ID                string        `json:"id"`
 	Measurement   string        `json:"measurement"`
+	Work          string        `json:"work"`
+	Memo          string        `json:"memo"`
 	Concentration Concentration `json:"concentration"`
 }
 
@@ -58,6 +64,8 @@ type GetIDSave struct {
 	UserID int `json:"user_id"`
 	// ID                string        `json:"id"`
 	Measurement   string        `json:"measurement"`
+	Work          string        `json:"work"`
+	Memo          string        `json:"memo"`
 	Concentration Concentration `json:"concentration"`
 }
 

@@ -35,7 +35,7 @@ func GetRecAll(c echo.Context) error {
 
 	filter := bson.D{{Key: "userid", Value: sess.Values["user_id"]}}
 
-	dbColl := mc.Database("gotoSys").Collection("other")
+	dbColl := mc.Database("gotoSys").Collection("gotoConc")
 
 	cur, err := dbColl.Find(context.Background(), filter)
 
