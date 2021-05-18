@@ -5,6 +5,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/sessions"
+	"github.com/gotomsak/sconcent/controllers/analysis"
 	"github.com/gotomsak/sconcent/controllers/frequency"
 	"github.com/gotomsak/sconcent/controllers/recording"
 	"github.com/gotomsak/sconcent/controllers/user"
@@ -35,6 +36,7 @@ func router() *echo.Echo {
 	e.GET("/signout", user.Signout)
 	e.POST("/save_concent", recording.SaveConcentration)
 	e.POST("/save_face_point", recording.SaveFacePoint)
+	e.GET("/get_rec_all", analysis.GetRecAll)
 	return e
 }
 

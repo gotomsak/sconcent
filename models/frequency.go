@@ -32,6 +32,7 @@ type MinFrequency struct {
 	Environment      string             `json:"environment"`
 }
 
+// GetFrequencyResData 集中度計測時に返すデータ
 type GetFrequencyResData struct {
 	MaxFrequency []MaxFrequency `json:"max_frequency"`
 	MinFrequency []MinFrequency `json:"min_frequency"`

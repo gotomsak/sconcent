@@ -9,6 +9,7 @@ import (
 	"github.com/gotomsak/sconcent/utils"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func InitMaxFrequency(c echo.Context) error {
@@ -26,6 +27,7 @@ func InitMaxFrequency(c echo.Context) error {
 	if err := c.Bind(initData); err != nil {
 		return c.JSON(500, "initData not found")
 	}
+	initData.ID = primitive.NewObjectID()
 
 	mc, ctx := utils.MongoConnect()
 	defer mc.Disconnect(ctx)
