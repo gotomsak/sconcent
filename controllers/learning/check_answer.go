@@ -34,7 +34,7 @@ func CheckAnswer(c echo.Context) error {
 		mc, ctx := utils.MongoConnect()
 		defer mc.Disconnect(ctx)
 
-		results := mc.Database("fe-concentration").Collection("concentration")
+		results := mc.Database("sconcent").Collection("concentration")
 		concData := models.ConcentrationData{
 			ConcentrationData: ca.ConcentrationData,
 		}

@@ -33,12 +33,14 @@ func SqlConnect() (database *gorm.DB) {
 
 	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.User{})
 	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.GetIDLog{})
-	// db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&AnswerResult{})
-	// db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&AnswerResultSection{})
-	// db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&Questionnaire{})
-	// db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&Frequency{})
-	// db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&ConcentrationData{})
-	// db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&SonConcentrationData{})
+	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.AdminUser{})
+	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.AnswerResult{})
+	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.AnswerResultSection{})
+	// db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.Questionnaire{})
+	// db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.Frequency{})
+	// db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.ConcentrationData{})
+	// db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.SonConcentrationData{})
+
 	if err != nil {
 		panic(err.Error())
 	}

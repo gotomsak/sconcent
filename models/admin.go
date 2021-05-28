@@ -5,7 +5,7 @@ import (
 )
 
 // User userテーブルのstruct
-type User struct {
+type AdminUser struct {
 	gorm.Model
 	Username       string `json:"username" gorm:"size:255"`
 	Email          string `json:"email" gorm:"type:varchar(100);unique_index"`
@@ -13,7 +13,7 @@ type User struct {
 }
 
 // UserSignup userのサインアップ時のstruct
-type UserSignup struct {
+type AdminUserSignup struct {
 	gorm.Model
 	Username string `json:"username"`
 	Email    string `json:"email" gorm:"type:varchar(100);unique_index"`
@@ -21,22 +21,25 @@ type UserSignup struct {
 }
 
 // UserSignin userのサインイン時のstruct
-type UserSignin struct {
+type AdminUserSignin struct {
 	gorm.Model
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
 // UserSend Signup時に送られるdata
-type UserSend struct {
+type AdminUserSend struct {
 	UserID   uint   `json:"user_id"`
 	Username string `json:"username"`
 }
 
-// UserInfo passwordを除いたuser情報
-type UserInfo struct {
-	gorm.Model
-	UserID   uint   `json:"user_id"`
-	Username string `json:"username" gorm:"size:255"`
-	Email    string `json:"email" gorm:"type:varchar(100);unique_index"`
+// AdminGetIDLogsRes AdminGetIdLogsで返されるデータ
+type AdminGetIDLogsRes struct {
+	GetIDLogs []GetIDLog `json:"get_id_logs"`
 }
+
+// // AdminGetRecAllRes
+// type AdminGetRecAllRes struct {
+
+// 	ConcentData []GetConcentrationRes `json:"concent_data"`
+// }
