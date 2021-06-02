@@ -33,7 +33,7 @@ func CheckAnswerSection(c echo.Context) error {
 	mc, ctx := utils.MongoConnect()
 	defer mc.Disconnect(ctx)
 
-	results := mc.Database("fe-concentration").Collection("answer_result_sectoin_ids")
+	results := mc.Database("sconcent").Collection("answer_result_sectoin_ids")
 	res, err := results.InsertOne(context.Background(), models.Results{ResultIDs: cas.AnswerResultIDs})
 	var resID string
 	if oid, ok := res.InsertedID.(primitive.ObjectID); ok {
@@ -46,6 +46,7 @@ func CheckAnswerSection(c echo.Context) error {
 		UserID:              cas.UserID,
 		AnswerResultIDs:     resID,
 		CorrectAnswerNumber: cas.CorrectAnswerNumber,
+		ConcID:              cas.ConcID,
 		StartTime:           utils.StringToTime(cas.StartTime),
 		EndTime:             utils.StringToTime(cas.EndTime),
 	}

@@ -56,7 +56,7 @@ func SaveFacePoint(c echo.Context) error {
 		return c.JSON(500, "find error")
 	}
 
-	oldData.FacePointAll = append(oldData.FacePointAll, bindData.FacePointAll)
+	oldData.FacePointAll = append(oldData.FacePointAll, bindData.FacePointAll...)
 
 	res, err := dbColl.UpdateOne(context.Background(), filter, bson.M{"$set": bson.M{"face_point_all": oldData.FacePointAll}})
 	fmt.Println(res)

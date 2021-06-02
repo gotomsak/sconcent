@@ -1,7 +1,6 @@
 package learning
 
 import (
-	"context"
 	"net/http"
 
 	"github.com/gotomsak/sconcent/models"
@@ -9,7 +8,6 @@ import (
 	"github.com/gotomsak/sconcent/utils"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func CheckAnswer(c echo.Context) error {
@@ -27,29 +25,29 @@ func CheckAnswer(c echo.Context) error {
 	if err = c.Bind(ca); err != nil {
 		return c.String(http.StatusInternalServerError, "The format is different")
 	}
-	var resID string = ""
+	// var resID string = ""
 
-	if len(ca.ConcentrationData) != 0 {
+	// if len(ca.ConcentrationData) != 0 {
 
-		mc, ctx := utils.MongoConnect()
-		defer mc.Disconnect(ctx)
+	// 	mc, ctx := utils.MongoConnect()
+	// 	defer mc.Disconnect(ctx)
 
-		results := mc.Database("fe-concentration").Collection("concentration")
-		concData := models.ConcentrationData{
-			ConcentrationData: ca.ConcentrationData,
-		}
-		res, err := results.InsertOne(context.Background(), concData)
+	// 	results := mc.Database("sconcent").Collection("concentration")
+	// 	concData := models.ConcentrationData{
+	// 		ConcentrationData: ca.ConcentrationData,
+	// 	}
+	// 	res, err := results.InsertOne(context.Background(), concData)
 
-		if err != nil {
-			return c.JSON(http.StatusInternalServerError, "No Insert Conc")
-		}
+	// 	if err != nil {
+	// 		return c.JSON(http.StatusInternalServerError, "No Insert Conc")
+	// 	}
 
-		if oid, ok := res.InsertedID.(primitive.ObjectID); ok {
-			resID = oid.Hex()
-		} else {
-			return c.JSON(http.StatusInternalServerError, "Not objectid.ObjectID, do what you want")
-		}
-	}
+	// 	if oid, ok := res.InsertedID.(primitive.ObjectID); ok {
+	// 		resID = oid.Hex()
+	// 	} else {
+	// 		return c.JSON(http.StatusInternalServerError, "Not objectid.ObjectID, do what you want")
+	// 	}
+	// }
 
 	db := utils.SqlConnect()
 	defer db.Close()
@@ -67,15 +65,15 @@ func CheckAnswer(c echo.Context) error {
 		result = "correct"
 	}
 	answerResult := models.AnswerResult{
-		UserID:            ca.UserID,
-		UserAnswer:        ca.UserAnswer,
-		AnswerResult:      result,
-		ConcentrationData: resID,
-		MemoLog:           ca.MemoLog,
-		OtherFocusSecond:  ca.OtherFocusSecond,
-		QuestionID:        ca.QuestionID,
-		StartTime:         utils.StringToTime(ca.StartTime),
-		EndTime:           utils.StringToTime(ca.EndTime),
+		UserID:       ca.UserID,
+		UserAnswer:   ca.UserAnswer,
+		AnswerResult: result,
+		// ConcentrationData: resID,
+		MemoLog:          ca.MemoLog,
+		OtherFocusSecond: ca.OtherFocusSecond,
+		QuestionID:       ca.QuestionID,
+		StartTime:        utils.StringToTime(ca.StartTime),
+		EndTime:          utils.StringToTime(ca.EndTime),
 	}
 
 	if c.FormValue("test") == "true" {
