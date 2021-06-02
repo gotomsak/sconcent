@@ -94,6 +94,14 @@ type PostFacePointSave struct {
 	FacePointAll []interface{}      `json:"face_point_all" bson:"face_point_all"`
 }
 
+// PostConcentSplitBind
+type PostConcentSplitBind struct {
+	ID            primitive.ObjectID `json:"id" bson:"_id"`
+	Type          string             `json:"type"`
+	Measurement   string             `json:"measurement"`
+	Concentration Concentration      `json:"concentration" bson:"_id"`
+}
+
 // // GetSaveImagesIDRes レスポンス
 // type GetSaveImagesIDRes struct {
 // 	ConcDataID int64 `json:"id"`

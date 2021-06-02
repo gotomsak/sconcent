@@ -54,47 +54,18 @@ type AnswerResultSend struct {
 	Answer         string `json:"answer"`
 }
 
-// // User userテーブルのstruct
-// type User struct {
-// 	gorm.Model
-// 	Username       string `json:"username" gorm:"size:255"`
-// 	Email          string `json:"email" gorm:"type:varchar(100);unique_index"`
-// 	PasswordDigest string `json:"password_digest" gorm:"size:255"`
-// }
-
-// // UserSignup userのサインアップ時のstruct
-// type UserSignup struct {
-// 	gorm.Model
-// 	Username string `json:"username"`
-// 	Email    string `json:"email" gorm:"type:varchar(100);unique_index"`
-// 	Password string `json:"password"`
-// }
-
-// // UserSignin userのサインイン時のstruct
-// type UserSignin struct {
-// 	gorm.Model
-// 	Email    string `json:"email"`
-// 	Password string `json:"password"`
-// }
-
-// // UserSend Signup時に送られるdata
-// type UserSend struct {
-// 	UserID   uint   `json:"user_id"`
-// 	Username string `json:"username"`
-// }
-
 // AnswerResult 解答の結果を保存するテーブルのstruct
 type AnswerResult struct {
 	gorm.Model
-	UserID            uint   `gorm:"not null"`
-	UserAnswer        string `gorm:"not null"` // userの選んだ答え
-	AnswerResult      string `gorm:"not null"` // correctかincorrect
-	ConcentrationData string
-	MemoLog           string    `gorm:"type:text;"`
-	OtherFocusSecond  uint      `json:"other_focus_second"`
-	QuestionID        uint      `gorm:"not null"`
-	StartTime         time.Time `json:"start_time"`
-	EndTime           time.Time `json:"end_time"`
+	UserID       uint   `gorm:"not null"`
+	UserAnswer   string `gorm:"not null"` // userの選んだ答え
+	AnswerResult string `gorm:"not null"` // correctかincorrect
+	// ConcentrationData string
+	MemoLog          string    `gorm:"type:text;"`
+	OtherFocusSecond uint      `json:"other_focus_second"`
+	QuestionID       uint      `gorm:"not null"`
+	StartTime        time.Time `json:"start_time"`
+	EndTime          time.Time `json:"end_time"`
 }
 
 // AnswerResultSection 解答の結果のまとめを保存するテーブルのstruct
@@ -103,6 +74,7 @@ type AnswerResultSection struct {
 	UserID              uint      `json:"user_id" gorm:"not null"`
 	AnswerResultIDs     string    `json:"answer_result_ids"`
 	CorrectAnswerNumber uint      `json:"correct_answer_number" gorm:"not null"`
+	ConcID              string    `json:"conc_id"`
 	StartTime           time.Time `json:"start_time"`
 	EndTime             time.Time `json:"end_time"`
 }
@@ -111,6 +83,7 @@ type AnswerResultSection struct {
 type CheckAnswerSectionBind struct {
 	UserID              uint     `json:"user_id" gorm:"not null"`
 	AnswerResultIDs     []uint64 `json:"answer_result_ids" gorm:"type:text;not null"`
+	ConcID              string   `json:"conc_id"`
 	CorrectAnswerNumber uint     `json:"correct_answer_number" gorm:"not null"`
 	StartTime           string   `json:"start_time"`
 	EndTime             string   `json:"end_time"`
@@ -118,14 +91,14 @@ type CheckAnswerSectionBind struct {
 
 // CheckAnswer postされてきたdataのbind
 type CheckAnswerBind struct {
-	UserID            uint          `json:"user_id"`
-	UserAnswer        string        `json:"user_answer"`
-	MemoLog           string        `json:"memo_log"`
-	OtherFocusSecond  uint          `json:"other_focus_second"`
-	QuestionID        uint          `json:"question_id"`
-	ConcentrationData []interface{} `json:"concentration_data"`
-	StartTime         string        `json:"start_time"`
-	EndTime           string        `json:"end_time"`
+	UserID           uint   `json:"user_id"`
+	UserAnswer       string `json:"user_answer"`
+	MemoLog          string `json:"memo_log"`
+	OtherFocusSecond uint   `json:"other_focus_second"`
+	QuestionID       uint   `json:"question_id"`
+	// ConcentrationData []interface{} `json:"concentration_data"`
+	StartTime string `json:"start_time"`
+	EndTime   string `json:"end_time"`
 }
 
 // Questionnaire アンケート結果を保存するテーブルのstruct
@@ -139,19 +112,19 @@ type Questionnaire struct {
 	Nonsense              int  `json:"nonsense"`      // デタラメ
 }
 
-// Frequency 最高最低頻度
-type Frequency struct {
-	gorm.Model
-	UserID               uint    `gorm:"not null"`
-	MaxBlinkFrequency    float64 `json:"max_blink_frequency"`
-	MinBlinkFrequency    float64 `json:"min_blink_frequency"`
-	MaxFaceMoveFrequency float64 `json:"max_face_move_frequency"`
-	MinFaceMoveFrequency float64 `json:"min_face_move_frequency"`
-	MaxBlinkNumber       float64 `json:"max_blink_number"`
-	MinBlinkNumber       float64 `json:"min_blink_number"`
-	MaxFaceMoveNumber    float64 `json:"max_face_move_number"`
-	MinFaceMoveNumber    float64 `json:"min_face_move_number"`
-}
+// // Frequency 最高最低頻度
+// type Frequency struct {
+// 	gorm.Model
+// 	UserID               uint    `gorm:"not null"`
+// 	MaxBlinkFrequency    float64 `json:"max_blink_frequency"`
+// 	MinBlinkFrequency    float64 `json:"min_blink_frequency"`
+// 	MaxFaceMoveFrequency float64 `json:"max_face_move_frequency"`
+// 	MinFaceMoveFrequency float64 `json:"min_face_move_frequency"`
+// 	MaxBlinkNumber       float64 `json:"max_blink_number"`
+// 	MinBlinkNumber       float64 `json:"min_blink_number"`
+// 	MaxFaceMoveNumber    float64 `json:"max_face_move_number"`
+// 	MinFaceMoveNumber    float64 `json:"min_face_move_number"`
+// }
 
 // ConcentrationData 集中度の保存
 // type ConcentrationData struct {
@@ -167,18 +140,10 @@ type Frequency struct {
 // 	C3                    []float64 `json:"c3"`
 // }
 
-// ConcentrationData 集中度の保存
-type ConcentrationData struct {
-	ConcentrationData []interface{} `json:"concentration_data"`
-}
-
-// SonConcentrationData 集中度の保存
-type SonConcentrationData struct {
-	UserID                uint      `gorm:"not null"`
-	AnswerResultSectionID uint      `json:"answer_result_section_id"`
-	FaceImagePath         string    `gorm:"not null"`
-	Concentration         []float64 `json:"concentration"`
-}
+// // ConcentrationData 集中度の保存
+// type ConcentrationData struct {
+// 	ConcentrationData []interface{} `json:"concentration_data"`
+// }
 
 // Results answer_result_section_idsをnosqlに保存
 type Results struct {
@@ -193,6 +158,7 @@ type GetQuestionGymRes struct {
 	Question   string   `json:"question"`
 	AnsList    []string `json:"ans_list"`
 }
+
 type QuestionsSub struct {
 	ID       uint   `json:"id"`
 	Question string `json:"question"`

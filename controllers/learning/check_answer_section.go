@@ -46,6 +46,7 @@ func CheckAnswerSection(c echo.Context) error {
 		UserID:              cas.UserID,
 		AnswerResultIDs:     resID,
 		CorrectAnswerNumber: cas.CorrectAnswerNumber,
+		ConcID:              cas.ConcID,
 		StartTime:           utils.StringToTime(cas.StartTime),
 		EndTime:             utils.StringToTime(cas.EndTime),
 	}
