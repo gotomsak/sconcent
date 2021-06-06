@@ -67,7 +67,7 @@ func AdminGetRecAll(c echo.Context) error {
 		}
 		res.MaxFrequency = append(res.MaxFrequency, curN)
 	}
-	dbColl = mc.Database("gotoSys").Collection("maxFrequency")
+	dbColl = mc.Database("gotoSys").Collection("minFrequency")
 
 	cur, err = dbColl.Find(context.Background(), filter)
 	if err == mongo.ErrNoDocuments {
