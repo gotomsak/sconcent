@@ -38,6 +38,12 @@ type AdminGetIDLogsRes struct {
 	GetIDLogs []GetIDLog `json:"get_id_logs"`
 }
 
+// GetUserAllRes
+type AdminGetUserAllRes struct {
+	// gorm.Model
+	UsersInfo []UserInfo `json:"users_info"`
+}
+
 // // AdminGetRecAllRes
 // type AdminGetRecAllRes struct {
 
