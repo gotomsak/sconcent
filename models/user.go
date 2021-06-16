@@ -35,7 +35,7 @@ type UserSend struct {
 
 // UserInfo passwordを除いたuser情報
 type UserInfo struct {
-	gorm.Model
+	// gorm.Model
 	UserID   uint   `json:"user_id"`
 	Username string `json:"username" gorm:"size:255"`
 	Email    string `json:"email" gorm:"type:varchar(100);unique_index"`
