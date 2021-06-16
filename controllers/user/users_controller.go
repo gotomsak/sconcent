@@ -91,6 +91,10 @@ func CheckSession(c echo.Context) error {
 	sess, _ := session.Get("session", c)
 	log.Print(sess.Values["authenticated"])
 
+	if b, _ := sess.Values["user_id"]; b == nil {
+		return c.String(http.StatusUnauthorized, "401")
+	}
+
 	if b, _ := sess.Values["authenticated"]; b != true {
 		return c.String(http.StatusUnauthorized, "401")
 	}

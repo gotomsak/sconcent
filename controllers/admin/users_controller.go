@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/sessions"
 	"github.com/gotomsak/sconcent/models"
@@ -24,7 +25,10 @@ func AdminSignup(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, "Faild Bind")
 	}
 	fmt.Println(u)
-
+	check := os.Getenv("TOKEN")
+	if check != us.Token {
+		return c.JSON(500, "access token mistaken")
+	}
 	u.PasswordDigest = AdminPasswordHash(us.Password)
 	u.Username = us.Username
 	u.Email = us.Email
@@ -53,6 +57,10 @@ func AdminSignin(c echo.Context) error {
 	if err := c.Bind(us); err != nil {
 		return c.JSON(http.StatusInternalServerError, "Faild Bind")
 	}
+	check := os.Getenv("TOKEN")
+	if check != us.Token {
+		return c.JSON(500, "access token mistaken")
+	}
 
 	db.Where("email = ?", us.Email).Find(&u)
 
@@ -68,7 +76,7 @@ func AdminSignin(c echo.Context) error {
 			Secure:   true,
 		}
 		sess.Values["authenticated"] = true
-		sess.Values["user_id"] = u.ID
+		sess.Values["admin_user_id"] = u.ID
 		if err := sess.Save(c.Request(), c.Response()); err != nil {
 			return c.NoContent(http.StatusInternalServerError)
 		}
@@ -90,6 +98,9 @@ func AdminSignout(c echo.Context) error {
 func AdminCheckSession(c echo.Context) error {
 	sess, _ := session.Get("session", c)
 	log.Print(sess.Values["authenticated"])
+	if b, _ := sess.Values["admin_user_id"]; b == nil {
+		return c.String(http.StatusUnauthorized, "401")
+	}
 
 	if b, _ := sess.Values["authenticated"]; b != true {
 		return c.String(http.StatusUnauthorized, "401")
