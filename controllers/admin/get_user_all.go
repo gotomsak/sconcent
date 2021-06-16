@@ -19,7 +19,7 @@ func AdminGetUserAll(c echo.Context) error {
 		return c.String(http.StatusUnauthorized, "401")
 	}
 
-	if b, _ := sess.Values["user_id"]; b == nil {
+	if b, _ := sess.Values["admin_user_id"]; b == nil {
 		return c.String(http.StatusUnauthorized, "401")
 	}
 

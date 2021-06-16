@@ -14,17 +14,17 @@ type AdminUser struct {
 
 // UserSignup userのサインアップ時のstruct
 type AdminUserSignup struct {
-	gorm.Model
 	Username string `json:"username"`
-	Email    string `json:"email" gorm:"type:varchar(100);unique_index"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
+	Token    string `json:"token"`
 }
 
 // UserSignin userのサインイン時のstruct
 type AdminUserSignin struct {
-	gorm.Model
 	Email    string `json:"email"`
 	Password string `json:"password"`
+	Token    string `json:"token"`
 }
 
 // UserSend Signup時に送られるdata
