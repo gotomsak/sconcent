@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"reflect"
+	"strconv"
 
 	"github.com/gotomsak/sconcent/models"
 	"github.com/gotomsak/sconcent/utils"
@@ -24,16 +26,15 @@ func AdminGetRecAll(c echo.Context) error {
 		return c.String(http.StatusUnauthorized, "401")
 	}
 
-	if b, _ := sess.Values["user_id"]; b == nil {
-		return c.String(http.StatusUnauthorized, "401")
-	}
-
 	mc, ctx := utils.MongoConnect()
 	defer mc.Disconnect(ctx)
 
 	res := new(models.GetRecAllRes)
 
-	filter := bson.D{{Key: "userid", Value: sess.Values["user_id"]}}
+	userID, _ := strconv.Atoi(c.Param("user_id"))
+	fmt.Println(reflect.TypeOf(c.Param("user_id")))
+
+	filter := bson.D{{Key: "userid", Value: userID}}
 
 	dbColl := mc.Database("gotoSys").Collection("gotoConc")
 

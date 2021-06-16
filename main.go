@@ -47,6 +47,7 @@ func router() *echo.Echo {
 	e.GET("/admin_check_session", admin.AdminCheckSession)
 	e.GET("/admin_get_id_logs", admin.AdminGetIDLogs)
 	e.GET("/admin_get_user_all", admin.AdminGetUserAll)
+	e.GET("/admin_get_rec_all/:user_id", admin.AdminGetRecAll)
 
 	e.POST("/question_ids", learning.GetQuestionIds)
 	e.GET("/question", learning.GetQuestion)

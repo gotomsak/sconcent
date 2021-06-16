@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"reflect"
 
 	"github.com/gotomsak/sconcent/models"
 	"github.com/gotomsak/sconcent/utils"
@@ -32,7 +33,7 @@ func GetRecAll(c echo.Context) error {
 	defer mc.Disconnect(ctx)
 
 	res := new(models.GetRecAllRes)
-
+	fmt.Println(reflect.TypeOf(sess.Values["user_id"]))
 	filter := bson.D{{Key: "userid", Value: sess.Values["user_id"]}}
 
 	dbColl := mc.Database("gotoSys").Collection("gotoConc")
