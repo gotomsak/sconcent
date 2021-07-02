@@ -6,3 +6,10 @@ type GetRecAllRes struct {
 	MinFrequency  []MinFrequency        `json:"minFrequency"`
 	Concentration []GetConcentrationRes `json:"concentration"`
 }
+
+type GetRecUserDateRes struct {
+	MaxFrequency  []MaxFrequency      `json:"maxFrequency"`
+	MinFrequency  []MinFrequency      `json:"minFrequency"`
+	Concentration GetConcentrationRes `json:"concentration"`
+	FacePointAll  PostFacePointSave   `json:"faceAllPoint"`
+}
