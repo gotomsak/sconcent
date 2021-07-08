@@ -7,6 +7,8 @@ import (
 	"github.com/gorilla/sessions"
 	"github.com/gotomsak/sconcent/controllers/admin"
 	"github.com/gotomsak/sconcent/controllers/analysis"
+	"github.com/gotomsak/sconcent/controllers/ear"
+	"github.com/gotomsak/sconcent/controllers/environment"
 	"github.com/gotomsak/sconcent/controllers/frequency"
 	"github.com/gotomsak/sconcent/controllers/learning"
 	"github.com/gotomsak/sconcent/controllers/recording"
@@ -29,9 +31,11 @@ func router() *echo.Echo {
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
 
 	e.POST("/get_id", recording.GetID)
+	e.POST("/init_ear", ear.InitEAR)
 	e.POST("/init_max", frequency.InitMaxFrequency)
 	e.POST("/init_min", frequency.InitMinFrequency)
 	e.GET("/get_frequency", frequency.GetFrequency)
+	e.GET("/get_ear", ear.GetEar)
 	e.GET("/check_session", user.CheckSession)
 	e.POST("/signin", user.Signin)
 	e.POST("/signup", user.Signup)
@@ -40,9 +44,11 @@ func router() *echo.Echo {
 	e.POST("/save_face_point", recording.SaveFacePoint)
 	e.GET("/get_rec_all", analysis.GetRecAll)
 	e.POST("/save_concent_split", recording.SaveConcentSplit)
+	e.POST("/save_environment", environment.SaveEnvironment)
+	e.GET("/get_environment", environment.GetEnvironment)
 
 	e.POST("/admin_signin", admin.AdminSignin)
-	e.POST("admin_signup", admin.AdminSignup)
+	e.POST("/admin_signup", admin.AdminSignup)
 	e.GET("/admin_signout", admin.AdminSignout)
 	e.GET("/admin_check_session", admin.AdminCheckSession)
 	e.GET("/admin_get_id_log_all", admin.AdminGetIDLogAll)
