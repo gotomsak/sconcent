@@ -9,7 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func AdminGetIDLogs(c echo.Context) error {
+func AdminGetIDLogAll(c echo.Context) error {
 	sess, err := session.Get("session", c)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "Error")
@@ -25,8 +25,8 @@ func AdminGetIDLogs(c echo.Context) error {
 
 	db := utils.SqlConnect()
 	defer db.Close()
-	res := models.AdminGetIDLogsRes{}
-	db.Find(&res.GetIDLogs)
+	res := models.AdminGetIDLogAllRes{}
+	db.Find(&res.GetIDLogAll)
 
 	// mc, ctx := utils.MongoConnect()
 	// defer mc.Disconnect(ctx)

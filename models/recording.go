@@ -7,14 +7,16 @@ import (
 
 // Concentration 集中度の手法に関するデータ
 type Concentration struct {
-	C1           []float64          `json:"c1" bson:"c1"`
-	C2           []float64          `json:"c2" bson:"c2"`
-	C3           []float64          `json:"c3" bson:"c3"`
-	W            []float64          `json:"W" bson:"w"`
-	Date         []string           `json:"date" bson:"date"`
-	MaxFreqID    primitive.ObjectID `json:"max_freq_id" bson:"max_freq_id"`
-	MinFreqID    primitive.ObjectID `json:"min_freq_id" bson:"min_freq_id"`
-	FacePointAll primitive.ObjectID `json:"face_point_id" bson:"_face_point_id"`
+	C1            []float64          `json:"c1" bson:"c1"`
+	C2            []float64          `json:"c2" bson:"c2"`
+	C3            []float64          `json:"c3" bson:"c3"`
+	W             []float64          `json:"W" bson:"w"`
+	Date          []string           `json:"date" bson:"date"`
+	EarID         primitive.ObjectID `json:"ear_id" bson:"ear_id"`
+	MaxFreqID     primitive.ObjectID `json:"max_freq_id" bson:"max_freq_id"`
+	MinFreqID     primitive.ObjectID `json:"min_freq_id" bson:"min_freq_id"`
+	EnvironmentID primitive.ObjectID `json:"environment_id"`
+	FacePointAll  primitive.ObjectID `json:"face_point_id" bson:"_face_point_id"`
 }
 
 // SaveConcentration postされてきたdataのbind
@@ -78,7 +80,8 @@ type GetIDLog struct {
 
 // GetIDRes get_idのレスポンス
 type GetIDRes struct {
-	ConcDataID  primitive.ObjectID `json:"conc_id" bson:"_conc_id"`
+	ConcDataID primitive.ObjectID `json:"conc_id" bson:"_conc_id"`
+	// EarData     EarData            `json:"earData"`
 	FacePointID primitive.ObjectID `json:"face_point_id" bson:"_face_point_id"`
 }
 

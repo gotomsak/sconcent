@@ -36,14 +36,36 @@ func GetID(c echo.Context) error {
 	mc, ctx := utils.MongoConnect()
 	defer mc.Disconnect(ctx)
 	getID := new(models.GetIDBind)
+	res := new(models.GetIDRes)
 	if err := c.Bind(getID); err != nil {
 		return c.JSON(500, "concentration not found")
 	}
 	fmt.Println(getID)
 
-	dbColl := mc.Database(getID.Type).Collection(getID.Measurement)
-	newID := primitive.NewObjectID()
+	// getID.Concentration.EarID =
+
+	dbColl := mc.Database("gotoSys").Collection("facePoint")
 	facePointNewID := primitive.NewObjectID()
+
+	getID.Concentration.FacePointAll = facePointNewID
+
+	facePointRequest := models.GetFacePointIDSave{
+		ID: facePointNewID,
+		// FacePointAll: []interface{}{},
+	}
+
+	_, err = dbColl.InsertOne(context.Background(), facePointRequest)
+	if err != nil {
+		fmt.Println(err)
+		return c.JSON(500, "insert error")
+	}
+
+	// dbColl = mc.Database("gotoSys").Collection("ear")
+	// dbColl.FindOne(context.Background(), bson.M{"_id": getID.Concentration.EarID}).Decode(&res.EarData)
+
+	dbColl = mc.Database(getID.Type).Collection(getID.Measurement)
+	newID := primitive.NewObjectID()
+
 	request := models.GetIDSave{
 		ID:            newID,
 		UserID:        getID.UserID,
@@ -60,19 +82,6 @@ func GetID(c echo.Context) error {
 		return c.JSON(500, "insert error")
 	}
 
-	dbColl = mc.Database("gotoSys").Collection("facePoint")
-
-	facePointRequest := models.GetFacePointIDSave{
-		ID: facePointNewID,
-		// FacePointAll: []interface{}{},
-	}
-
-	_, err = dbColl.InsertOne(context.Background(), facePointRequest)
-	if err != nil {
-		fmt.Println(err)
-		return c.JSON(500, "insert error")
-	}
-
 	db := utils.SqlConnect()
 	defer db.Close()
 
@@ -81,6 +90,8 @@ func GetID(c echo.Context) error {
 		UserID:     getID.UserID,
 	}
 	err = db.Create(&getIDLog).Error
+	res.ConcDataID = newID
+	res.FacePointID = facePointNewID
 
-	return c.JSON(200, &models.GetIDRes{ConcDataID: newID, FacePointID: facePointNewID})
+	return c.JSON(200, res)
 }

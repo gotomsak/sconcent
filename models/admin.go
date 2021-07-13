@@ -34,8 +34,12 @@ type AdminUserSend struct {
 }
 
 // AdminGetIDLogsRes AdminGetIdLogsで返されるデータ
-type AdminGetIDLogsRes struct {
-	GetIDLogs []GetIDLog `json:"get_id_logs"`
+type AdminGetIDLogAllRes struct {
+	GetIDLogAll []GetIDLog `json:"get_id_log_all"`
+}
+
+type AdminGetIDLogUserRes struct {
+	GetIDLogUser []GetIDLog `json:"get_id_log_user"`
 }
 
 // GetUserAllRes
