@@ -1,6 +1,10 @@
 package models
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"time"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 // MaxFrequencyData 中身
 type MaxFrequencyData struct {
@@ -15,7 +19,7 @@ type MaxFrequency struct {
 	ID               primitive.ObjectID `json:"id" bson:"_id"`
 	UserID           int                `json:"user_id"`
 	MaxFrequencyData MaxFrequencyData   `json:"max_frequency_data"`
-	Date             string             `json:"date" bson:"date"`
+	Date             time.Time          `json:"date" bson:"date"`
 	// Environment      string             `json:"environment"`
 }
 
@@ -32,7 +36,7 @@ type MinFrequency struct {
 	ID               primitive.ObjectID `json:"id" bson:"_id"`
 	UserID           int                `json:"user_id"`
 	MinFrequencyData MinFrequencyData   `json:"min_frequency_data"`
-	Date             string             `json:"date" bson:"date"`
+	Date             time.Time          `json:"date" bson:"date"`
 	// Environment      string             `json:"environment"`
 }
 

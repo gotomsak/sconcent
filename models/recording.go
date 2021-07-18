@@ -1,6 +1,8 @@
 package models
 
 import (
+	"time"
+
 	"github.com/jinzhu/gorm"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -11,7 +13,7 @@ type Concentration struct {
 	C2            []float64          `json:"c2" bson:"c2"`
 	C3            []float64          `json:"c3" bson:"c3"`
 	W             []float64          `json:"W" bson:"w"`
-	Date          []string           `json:"date" bson:"date"`
+	Date          []time.Time        `json:"date" bson:"date"`
 	EarID         primitive.ObjectID `json:"ear_id" bson:"ear_id"`
 	MaxFreqID     primitive.ObjectID `json:"max_freq_id" bson:"max_freq_id"`
 	MinFreqID     primitive.ObjectID `json:"min_freq_id" bson:"min_freq_id"`
@@ -102,6 +104,7 @@ type PostConcentSplitBind struct {
 	ID            primitive.ObjectID `json:"id" bson:"_id"`
 	Type          string             `json:"type"`
 	Measurement   string             `json:"measurement"`
+	Memo          string             `json:"memo"`
 	Concentration Concentration      `json:"concentration" bson:"_id"`
 }
 

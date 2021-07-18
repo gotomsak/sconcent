@@ -13,6 +13,7 @@ import (
 )
 
 func SaveConcentSplit(c echo.Context) error {
+
 	sess, err := session.Get("session", c)
 
 	if err != nil {
@@ -47,7 +48,7 @@ func SaveConcentSplit(c echo.Context) error {
 	oldData.Concentration.Date = append(oldData.Concentration.Date, newData.Concentration.Date...)
 	oldData.Concentration.W = append(oldData.Concentration.W, newData.Concentration.W...)
 
-	res, err := dbColl.UpdateOne(context.Background(), filter, bson.M{"$set": bson.M{"concentration": oldData.Concentration}})
+	res, err := dbColl.UpdateOne(context.Background(), filter, bson.M{"$set": bson.M{"concentration": oldData.Concentration, "memo": newData.Memo}})
 	if err != nil {
 		fmt.Println(err)
 		return c.JSON(500, "update error")
