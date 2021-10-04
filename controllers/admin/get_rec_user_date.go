@@ -44,50 +44,116 @@ func AdminGetRecUserDate(c echo.Context) error {
 
 	dbColl := mc.Database("gotoSys").Collection("gotoConc")
 
-	err = dbColl.FindOne(context.Background(), bson.D{{"_id", filter}}).Decode(&res.Concentration)
+	err = dbColl.FindOne(context.Background(), bson.D{{"_id", filter}}).Decode(&res.GetConcentrationRes)
 
 	if err != nil {
 		return c.String(http.StatusBadRequest, "bat")
 	}
 
-	userIDFilter := bson.D{{Key: "userid", Value: res.Concentration.UserID}}
+	userIDFilter := bson.D{{Key: "userid", Value: res.GetConcentrationRes.UserID}}
 
-	dbColl = mc.Database("gotoSys").Collection("maxFrequency")
+	// dbColl = mc.Database("gotoSys").Collection("maxFrequency")
+
+	// cur, err := dbColl.Find(context.Background(), userIDFilter)
+
+	// if err == mongo.ErrNoDocuments {
+	// 	return c.String(http.StatusNotFound, "not max frequency")
+	// }
+
+	// for cur.Next(ctx) {
+	// 	curN := models.MaxFrequency{}
+	// 	err := cur.Decode(&curN)
+	// 	if err != nil {
+	// 		log.Fatal(err)
+	// 	}
+	// 	res.GetFrequencyResData.MaxFrequency = append(res.GetFrequencyResData.MaxFrequency, curN)
+	// }
+
+	// dbColl = mc.Database("gotoSys").Collection("minFrequency")
+
+	// cur, err = dbColl.Find(context.Background(), userIDFilter)
+	// if err == mongo.ErrNoDocuments {
+	// 	return c.String(http.StatusNotFound, "not min frequency")
+	// }
+
+	// for cur.Next(ctx) {
+	// 	curN := models.MinFrequency{}
+	// 	err := cur.Decode(&curN)
+	// 	if err != nil {
+	// 		log.Fatal(err)
+	// 	}
+	// 	res.GetFrequencyResData.MinFrequency = append(res.GetFrequencyResData.MinFrequency, curN)
+	// }
+
+	// dbColl = mc.Database("gotoSys").Collection("ear")
+
+	// cur, err := dbColl.Find(context.Background(), userIDFilter)
+	// if err == mongo.ErrNoDocuments {
+	// 	return c.String(http.StatusNotFound, "not min frequency")
+	// }
+
+	// for cur.Next(ctx) {
+	// 	curN := models.EarData{}
+	// 	err := cur.Decode(&curN)
+	// 	if err != nil {
+	// 		log.Fatal(err)
+	// 	}
+	// 	res.GetEarDataRes.EarData = append(res.GetEarDataRes.EarData, curN)
+	// }
+
+	// dbColl = mc.Database("gotoSys").Collection("environment")
+
+	// cur, err := dbColl.Find(context.Background(), userIDFilter)
+	// if err == mongo.ErrNoDocuments {
+	// 	return c.String(http.StatusNotFound, "not min frequency")
+	// }
+
+	// for cur.Next(ctx) {
+	// 	curN := models.EnvironmentRes{}
+	// 	err := cur.Decode(&curN)
+	// 	if err != nil {
+	// 		log.Fatal(err)
+	// 	}
+	// 	res.GetEnvironmentRes.Environments = append(res.GetEnvironmentRes.Environments, curN)
+	// }
+	dbColl = mc.Database("gotoSys").Collection("environment")
 
 	cur, err := dbColl.Find(context.Background(), userIDFilter)
-
 	if err == mongo.ErrNoDocuments {
 		return c.String(http.StatusNotFound, "not max frequency")
 	}
 
 	for cur.Next(ctx) {
-		curN := models.MaxFrequency{}
-		err := cur.Decode(&curN)
+		resenv := models.EnvironmentRes{}
+		enviro := models.Environment{}
+		maxF := models.MaxFrequency{}
+		minF := models.MinFrequency{}
+		ear := models.EarData{}
+		err := cur.Decode(&enviro)
+
+		dbColl = mc.Database("gotoSys").Collection("maxFrequency")
+		err = dbColl.FindOne(context.TODO(), bson.M{"_id": enviro.MaxFreqID}).Decode(&maxF)
+		resenv.MaxFreq = maxF
+		dbColl = mc.Database("gotoSys").Collection("minFrequency")
+		err = dbColl.FindOne(context.TODO(), bson.M{"_id": enviro.MinFreqID}).Decode(&minF)
+		resenv.MinFreq = minF
+		dbColl = mc.Database("gotoSys").Collection("ear")
+		err = dbColl.FindOne(context.TODO(), bson.M{"_id": enviro.EarID}).Decode(&ear)
+		resenv.Ear = ear
+		resenv.Date = enviro.Date
+		resenv.Name = enviro.Name
+		resenv.ID = enviro.ID
+
 		if err != nil {
 			log.Fatal(err)
 		}
-		res.MaxFrequency = append(res.MaxFrequency, curN)
-	}
 
-	dbColl = mc.Database("gotoSys").Collection("minFrequency")
-
-	cur, err = dbColl.Find(context.Background(), userIDFilter)
-	if err == mongo.ErrNoDocuments {
-		return c.String(http.StatusNotFound, "not min frequency")
-	}
-
-	for cur.Next(ctx) {
-		curN := models.MinFrequency{}
-		err := cur.Decode(&curN)
-		if err != nil {
-			log.Fatal(err)
-		}
-		res.MinFrequency = append(res.MinFrequency, curN)
+		res.GetEnvironmentRes = append(res.GetEnvironmentRes, resenv)
 	}
 
 	dbColl = mc.Database("gotoSys").Collection("facePoint")
 
-	faceAllPointFilter := res.Concentration.Concentration.FacePointAll
+	faceAllPointFilter := res.GetConcentrationRes.Concentration.FacePointAll
 	fmt.Println(faceAllPointFilter)
 	err = dbColl.FindOne(context.Background(), bson.D{{"_id", faceAllPointFilter}}).Decode(&res.FacePointAll)
 
@@ -96,7 +162,7 @@ func AdminGetRecUserDate(c echo.Context) error {
 		return c.JSON(500, "find error")
 	}
 
-	fmt.Println(res.Concentration)
+	// fmt.Println(res.Concentration)
 
 	return c.JSON(200, res)
 

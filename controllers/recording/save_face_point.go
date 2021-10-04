@@ -57,8 +57,9 @@ func SaveFacePoint(c echo.Context) error {
 	}
 
 	oldData.FacePointAll = append(oldData.FacePointAll, bindData.FacePointAll...)
-
+	oldData.FaceAngleAll = append(oldData.FaceAngleAll, bindData.FaceAngleAll...)
 	res, err := dbColl.UpdateOne(context.Background(), filter, bson.M{"$set": bson.M{"face_point_all": oldData.FacePointAll}})
+	res, err = dbColl.UpdateOne(context.Background(), filter, bson.M{"$set": bson.M{"face_angle_all": oldData.FaceAngleAll}})
 	fmt.Println(res)
 	end := time.Now()
 	fmt.Printf("%f秒\n", (end.Sub(start)).Seconds())

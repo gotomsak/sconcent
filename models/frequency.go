@@ -12,6 +12,7 @@ type MaxFrequencyData struct {
 	MaxFaceMove  float64            `json:"max_face_move"`
 	EarID        primitive.ObjectID `json:"ear_id"`
 	FacePointAll []interface{}      `json:"face_point_all"`
+	FaceAngleAll []interface{}      `json:"face_angle_all"`
 }
 
 // MaxFrequency bindしてそのまま保存
@@ -29,6 +30,7 @@ type MinFrequencyData struct {
 	MinFaceMove  float64            `json:"min_face_move"`
 	EarID        primitive.ObjectID `json:"ear_id"`
 	FacePointAll []interface{}      `json:"face_point_all"`
+	FaceAngleAll []interface{}      `json:"face_angle_all"`
 }
 
 // MinFrequency bindしてそのまま保存
