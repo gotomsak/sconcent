@@ -97,6 +97,7 @@ type GetFacePointIDSave struct {
 type PostFacePointSave struct {
 	ID           primitive.ObjectID `json:"id" bson:"_id"`
 	FacePointAll []interface{}      `json:"face_point_all" bson:"face_point_all"`
+	FaceAngleAll []interface{}      `json:"face_angle_all" bson:"face_angle_all"`
 }
 
 // PostConcentSplitBind
