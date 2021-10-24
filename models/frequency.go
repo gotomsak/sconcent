@@ -47,3 +47,30 @@ type GetFrequencyResData struct {
 	MaxFrequency []MaxFrequency `json:"max_frequency"`
 	MinFrequency []MinFrequency `json:"min_frequency"`
 }
+
+// type ReMaxFrequencyBind struct {
+// 	UserID           int                `json:"user_id"`
+// 	MaxFrequencyData MaxFrequencyData   `json:"max_frequency_data"`
+// 	EnvironmentID    primitive.ObjectID `json:"environment_id"`
+// 	RootMaxFreqID    primitive.ObjectID `json:"root_max_freq_id"`
+// 	Date             time.Time          `json:"date" bson:"date"`
+// }
+
+type ReMaxFrequencySave struct {
+	ID               primitive.ObjectID `json:"id" bson:"_id"`
+	SeparationNum    int                `json:"separation_num"`
+	UserID           int                `json:"user_id"`
+	MaxFrequencyData MaxFrequencyData   `json:"max_frequency_data"`
+	EnvironmentID    primitive.ObjectID `json:"environment_id"`
+	RootMaxFreqID    primitive.ObjectID `json:"root_max_freq_id"`
+	Date             time.Time          `json:"date" bson:"date"`
+}
+
+type ReMinFrequencySave struct {
+	ID               primitive.ObjectID `json:"id" bson:"_id"`
+	UserID           int                `json:"user_id"`
+	MinFrequencyData MinFrequencyData   `json:"min_frequency_data"`
+	EnvironmentID    primitive.ObjectID `json:"environment_id"`
+	RootMinFreqID    primitive.ObjectID `json:"root_min_freq_id"`
+	Date             time.Time          `json:"date" bson:"date"`
+}
