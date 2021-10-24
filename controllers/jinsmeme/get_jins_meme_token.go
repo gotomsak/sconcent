@@ -35,9 +35,9 @@ func GetJinsMemeToken(c echo.Context) error {
 	req.RedirectUri = "https://fland.kait-matsulab.com/callback"
 
 	queryValue := url.Values{}
-	rv := reflect.ValueOf(req)
+	rv := reflect.ValueOf(&req)
 	rt := rv.Type()
-
+	//error pointerだから？
 	for i := 0; i < rt.NumField(); i++ {
 		field := rt.Field(i)
 		// kind:= field.Type.Kind()
