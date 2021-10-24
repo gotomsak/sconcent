@@ -10,6 +10,7 @@ import (
 	"github.com/gotomsak/sconcent/controllers/ear"
 	"github.com/gotomsak/sconcent/controllers/environment"
 	"github.com/gotomsak/sconcent/controllers/frequency"
+	"github.com/gotomsak/sconcent/controllers/jinsmeme"
 	"github.com/gotomsak/sconcent/controllers/learning"
 	"github.com/gotomsak/sconcent/controllers/recording"
 	"github.com/gotomsak/sconcent/controllers/user"
@@ -63,6 +64,8 @@ func router() *echo.Echo {
 	e.POST("/check_answer", learning.CheckAnswer)
 	e.POST("/check_answer_section", learning.CheckAnswerSection)
 	e.POST("/save_questionnaire", learning.SaveQuestionnaire)
+
+	e.POST("/get_jins_meme_token", jinsmeme.GetJinsMemeToken)
 
 	return e
 }
