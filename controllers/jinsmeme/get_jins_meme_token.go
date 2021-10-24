@@ -23,7 +23,7 @@ func GetJinsMemeToken(c echo.Context) error {
 	if b, _ := sess.Values["authenticated"]; b != true {
 		return c.String(http.StatusUnauthorized, "401")
 	}
-	req := new(models.GetJinsMemeTokenReq)
+	req := models.GetJinsMemeTokenReq{}
 
 	if err := c.Bind(req); err != nil {
 		return c.JSON(500, "concentratioon not found")
@@ -35,7 +35,7 @@ func GetJinsMemeToken(c echo.Context) error {
 	req.RedirectUri = "https://fland.kait-matsulab.com/callback"
 
 	queryValue := url.Values{}
-	rv := reflect.ValueOf(&req)
+	rv := reflect.ValueOf(req)
 	rt := rv.Type()
 	//error pointerだから？
 	for i := 0; i < rt.NumField(); i++ {
