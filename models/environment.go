@@ -7,13 +7,15 @@ import (
 )
 
 type Environment struct {
-	ID        primitive.ObjectID `json:"id" bson:"_id"`
-	Name      string             `json:"name"`
-	UserID    int                `json:"user_id"`
-	EarID     primitive.ObjectID `json:"ear_id"`
-	MaxFreqID primitive.ObjectID `json:"max_freq_id" bson:"max_freq_id"`
-	MinFreqID primitive.ObjectID `json:"min_freq_id" bson:"min_freq_id"`
-	Date      time.Time          `json:"date"`
+	ID           primitive.ObjectID `json:"id" bson:"_id"`
+	Name         string             `json:"name"`
+	UserID       int                `json:"user_id"`
+	EarID        primitive.ObjectID `json:"ear_id"`
+	MaxFreqID    primitive.ObjectID `json:"max_freq_id" bson:"max_freq_id"`
+	MinFreqID    primitive.ObjectID `json:"min_freq_id" bson:"min_freq_id"`
+	ReMaxFreqIDs []string           `json:"re_max_freq_ids"`
+	ReMinFreqIDs []string           `json:"re_min_freq_ids"`
+	Date         time.Time          `json:"date"`
 }
 
 type EnvironmentRes struct {
