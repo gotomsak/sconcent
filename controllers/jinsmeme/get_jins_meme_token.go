@@ -2,6 +2,7 @@ package jinsmeme
 
 import (
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
@@ -61,7 +62,8 @@ func GetJinsMemeToken(c echo.Context) error {
 		return err
 	}
 	defer resp.Body.Close()
-	fmt.Println(resp)
-
+	fmt.Println(resp.Body)
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(body))
 	return err
 }
