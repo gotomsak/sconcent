@@ -25,7 +25,7 @@ func GetJinsMemeToken(c echo.Context) error {
 	}
 	req := models.GetJinsMemeTokenReq{}
 
-	if err := c.Bind(req); err != nil {
+	if err := c.Bind(&req); err != nil {
 		return c.JSON(500, "concentratioon not found")
 	}
 
