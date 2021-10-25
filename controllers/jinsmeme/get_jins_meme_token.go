@@ -43,7 +43,7 @@ func GetJinsMemeToken(c echo.Context) error {
 		// kind:= field.Type.Kind()
 
 		value := rv.FieldByName(field.Name)
-		queryValue.Add(field.Tag.Get(field.Name), value.String())
+		queryValue.Add(field.Tag.Get("json"), value.String())
 		println(value.String())
 	}
 	fmt.Println(queryValue.Encode())
