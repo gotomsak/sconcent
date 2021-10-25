@@ -41,8 +41,9 @@ func GetJinsMemeToken(c echo.Context) error {
 	for i := 0; i < rt.NumField(); i++ {
 		field := rt.Field(i)
 		// kind:= field.Type.Kind()
+
 		value := rv.FieldByName(field.Name)
-		queryValue.Add(field.Name, value.String())
+		queryValue.Add(field.Tag.Get(field.Name), value.String())
 		println(value.String())
 	}
 	fmt.Println(queryValue.Encode())
