@@ -45,6 +45,7 @@ func GetJinsMemeToken(c echo.Context) error {
 		queryValue.Add(field.Name, value.String())
 		println(value.String())
 	}
+	fmt.Println(queryValue.Encode())
 
 	reqJ, err := http.NewRequest("POST", "https://apis.jins.com/meme/v1/oauth/token", strings.NewReader(queryValue.Encode()))
 	if err != nil {
