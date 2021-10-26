@@ -12,6 +12,7 @@ import (
 
 	"github.com/gotomsak/sconcent/models"
 	"github.com/gotomsak/sconcent/utils"
+	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 )
@@ -83,12 +84,17 @@ func GetJinsMemeToken(c echo.Context) error {
 	accessTokenSave.AccessToken = resRoot.AccessToken
 
 	// find := models.GetJinsMemeTokenSave{}
-	err = db.Model(models.GetJinsMemeTokenSave{}).Where("user_id = ?", accessTokenSave.UserID).Update("access_token", accessTokenSave.AccessToken).Error
+	// old := models.GetJinsMemeTokenReq{}
 
-	if err != nil {
-		fmt.Println(err)
-		err = nil
+	// err = db.Model(models.GetJinsMemeTokenSave{}).Where("user_id = ?", accessTokenSave.UserID).Update("access_token", accessTokenSave.AccessToken).Error
+	// err = db.First(&).Where("user_id = ?", accessTokenSave.UserID).Update("access_token", accessTokenSave.AccessToken).Error
+	if err := db.Model(&accessTokenSave).Where("user_id = ?", accessTokenSave.UserID).Update("access_token", accessTokenSave.AccessToken).Error; err != nil {
+		// fmt.Println(err)
+		// err = nil
 		err = db.Create(&accessTokenSave).Error
+		if gorm.IsRecordNotFoundError(err) {
+			db.Create(&accessTokenSave) // create new record from newUser
+		}
 	}
 
 	if err != nil {
