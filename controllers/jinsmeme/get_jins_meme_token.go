@@ -1,6 +1,7 @@
 package jinsmeme
 
 import (
+	"encoding/json"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -9,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/gotomsak/sconcent/models"
+	"github.com/gotomsak/sconcent/utils"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 )
@@ -23,12 +25,13 @@ func GetJinsMemeToken(c echo.Context) error {
 	if b, _ := sess.Values["authenticated"]; b != true {
 		return c.String(http.StatusUnauthorized, "401")
 	}
-	req := models.GetJinsMemeTokenReq{}
+	bind := models.GetJinsMemeTokenBind{}
 
-	if err := c.Bind(&req); err != nil {
+	if err := c.Bind(&bind); err != nil {
 		return c.JSON(500, "concentratioon not found")
 	}
-
+	req := models.GetJinsMemeTokenReq{}
+	req.Code = bind.Code
 	req.ClientSecret = os.Getenv("JINS_MEME_SECRET")
 	req.ClientID = os.Getenv("JINS_MEME_ID")
 	req.GrantType = "authorization_code"
@@ -61,8 +64,24 @@ func GetJinsMemeToken(c echo.Context) error {
 		return err
 	}
 	defer resp.Body.Close()
+	res := models.GetJinsMemeTokenRes{}
+
+	accessTokenSave := models.GetJinsMemeTokenSave{}
+	accessTokenSave.UserID = bind.UserID
+
+	db := utils.SqlConnect()
+	defer db.Close()
 
 	body, _ := ioutil.ReadAll(resp.Body)
+
+	json.Unmarshal(body, res)
+	accessTokenSave.AccessToken = res.AccessToken
+
+	err = db.Create(&accessTokenSave).Error
+	if err != nil {
+		return err
+	}
+
 	// fmt.Println(string(body))
 
 	return c.JSON(200, body)
