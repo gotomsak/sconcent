@@ -86,6 +86,8 @@ func GetJinsMemeToken(c echo.Context) error {
 	err = db.Model(models.GetJinsMemeTokenSave{}).Where("user_id = ?", accessTokenSave.UserID).Update("access_token", accessTokenSave.AccessToken).Error
 
 	if err != nil {
+		fmt.Println(err)
+		err = nil
 		err = db.Create(&accessTokenSave).Error
 	}
 
@@ -93,5 +95,5 @@ func GetJinsMemeToken(c echo.Context) error {
 		return err
 	}
 
-	return c.JSON(200, string(body))
+	return c.JSON(200, resRoot)
 }
