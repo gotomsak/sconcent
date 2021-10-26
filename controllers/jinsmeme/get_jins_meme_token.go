@@ -2,6 +2,7 @@ package jinsmeme
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -75,9 +76,17 @@ func GetJinsMemeToken(c echo.Context) error {
 	body, _ := ioutil.ReadAll(resp.Body)
 
 	json.Unmarshal(body, res)
+	fmt.Println(body)
+	fmt.Println(res)
 	accessTokenSave.AccessToken = res.AccessToken
 
-	err = db.Create(&accessTokenSave).Error
+	// find := models.GetJinsMemeTokenSave{}
+	err = db.Model(models.GetJinsMemeTokenSave{}).Where("user_id", accessTokenSave.UserID).Update("access_token", accessTokenSave.AccessToken).Error
+
+	if err != nil {
+		err = db.Create(&accessTokenSave).Error
+	}
+
 	if err != nil {
 		return err
 	}
