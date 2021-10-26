@@ -72,14 +72,15 @@ func GetJinsMemeToken(c echo.Context) error {
 	db := utils.SqlConnect()
 	defer db.Close()
 
-	var resRoot models.GetJinsMemeTokenRoot
+	var resRoot models.GetJinsMemeTokenRes
 
 	body, _ := ioutil.ReadAll(resp.Body)
 
+	fmt.Println(string(body))
 	json.Unmarshal(body, &resRoot)
 	fmt.Println(body)
 	fmt.Println(resRoot)
-	accessTokenSave.AccessToken = resRoot.Value[0].AccessToken
+	accessTokenSave.AccessToken = resRoot.AccessToken
 
 	// find := models.GetJinsMemeTokenSave{}
 	err = db.Model(models.GetJinsMemeTokenSave{}).Where("user_id = ?", accessTokenSave.UserID).Update("access_token", accessTokenSave.AccessToken).Error
@@ -91,8 +92,6 @@ func GetJinsMemeToken(c echo.Context) error {
 	if err != nil {
 		return err
 	}
-
-	fmt.Println(string(body))
 
 	return c.JSON(200, string(body))
 }
