@@ -28,3 +28,7 @@ type GetJinsMemeTokenSave struct {
 	AccessToken string `json:"access_token"`
 	UserID      uint   `json:"user_id"`
 }
+
+type Root struct {
+	Value []GetJinsMemeTokenRes `json:"value"`
+}
