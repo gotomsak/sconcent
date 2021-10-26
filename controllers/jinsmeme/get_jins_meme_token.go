@@ -1,7 +1,6 @@
 package jinsmeme
 
 import (
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -38,16 +37,16 @@ func GetJinsMemeToken(c echo.Context) error {
 	queryValue := url.Values{}
 	rv := reflect.ValueOf(req)
 	rt := rv.Type()
-	//error pointerだから？
+
 	for i := 0; i < rt.NumField(); i++ {
 		field := rt.Field(i)
 		// kind:= field.Type.Kind()
 
 		value := rv.FieldByName(field.Name)
 		queryValue.Add(field.Tag.Get("json"), value.String())
-		println(value.String())
+
 	}
-	fmt.Println(queryValue.Encode())
+	// fmt.Println(queryValue.Encode())
 
 	reqJ, err := http.NewRequest("POST", "https://apis.jins.com/meme/v1/oauth/token", strings.NewReader(queryValue.Encode()))
 	if err != nil {
@@ -62,8 +61,9 @@ func GetJinsMemeToken(c echo.Context) error {
 		return err
 	}
 	defer resp.Body.Close()
-	fmt.Println(resp.Body)
+
 	body, _ := ioutil.ReadAll(resp.Body)
-	fmt.Println(string(body))
-	return err
+	// fmt.Println(string(body))
+
+	return c.JSON(200, body)
 }
