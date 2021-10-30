@@ -1,6 +1,11 @@
 package models
 
-import "github.com/jinzhu/gorm"
+import (
+	"time"
+
+	"github.com/jinzhu/gorm"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 type GetJinsMemeTokenRes struct {
 	AccessToken  string `json:"access_token"`
@@ -31,4 +36,27 @@ type GetJinsMemeTokenSave struct {
 
 type GetJinsMemeTokenRoot struct {
 	Value []GetJinsMemeTokenRes `json:"value"`
+}
+
+type SaveJinsMemeDataBind struct {
+	UserID     uint               `json:"user_id"`
+	ConcDataID primitive.ObjectID `json:"conc_id" bson:"_conc_id"`
+	StartTime  time.Time          `json:"start_time" bson:"start_time"`
+	EndTime    time.Time          `json:"end_time" bson:"end_time"`
+}
+
+type SaveJinsMemeDataReq struct {
+	AccessToken string    `json:"access_token"`
+	StartTime   time.Time `json:"start_time" bson:"start_time"`
+	EndTime     time.Time `json:"end_time" bson:"end_time"`
+}
+
+type SaveJinsMemeDataRes struct {
+	ComputedData interface{} `json:"computed_data"`
+	Cursor       string      `json:"cursor"`
+}
+
+type SaveJinsMemeDataSave struct {
+	SaveJinsMemeDataRes SaveJinsMemeDataRes `json:"jins_meme_data"`
+	ConcDataID          primitive.ObjectID  `json:"conc_id" bson:"_conc_id"`
 }
