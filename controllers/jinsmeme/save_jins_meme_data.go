@@ -30,10 +30,16 @@ func SaveJinsMemeData(c echo.Context) error {
 	if err := c.Bind(&bind); err != nil {
 		return c.JSON(500, "concentratioon not found")
 	}
+	token := models.GetJinsMemeTokenSave{}
+
+	db := utils.SqlConnect()
+	defer db.Close()
+	db.First(&token, "user_id = ?", bind.UserID)
 
 	req := models.SaveJinsMemeDataReq{}
 	req.StartTime = bind.StartTime
 	req.EndTime = bind.EndTime
+	req.AccessToken = token.AccessToken
 
 	queryValue := url.Values{}
 	rv := reflect.ValueOf(req)
@@ -64,9 +70,6 @@ func SaveJinsMemeData(c echo.Context) error {
 
 	accessTokenSave := models.GetJinsMemeTokenSave{}
 	accessTokenSave.UserID = bind.UserID
-
-	db := utils.SqlConnect()
-	defer db.Close()
 
 	var resRoot models.SaveJinsMemeDataRes
 
