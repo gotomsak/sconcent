@@ -35,9 +35,9 @@ func SaveJinsMemeData(c echo.Context) error {
 
 	db := utils.SqlConnect()
 	defer db.Close()
-	fmt.Println(bind.UserID)
+	// fmt.Println(bind.UserID)
 	db.First(&token, "user_id = ?", bind.UserID)
-	fmt.Println(token.AccessToken)
+	// fmt.Println(token.AccessToken)
 	req := models.SaveJinsMemeDataReq{}
 	req.StartTime = bind.StartTime
 	req.EndTime = bind.EndTime
@@ -78,6 +78,8 @@ func SaveJinsMemeData(c echo.Context) error {
 	body, _ := ioutil.ReadAll(resp.Body)
 
 	json.Unmarshal(body, &resRoot)
+	fmt.Println(body)
+	fmt.Println(resRoot)
 
 	save := models.SaveJinsMemeDataSave{}
 	save.ConcDataID = bind.ConcDataID
