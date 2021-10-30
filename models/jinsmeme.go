@@ -46,9 +46,9 @@ type SaveJinsMemeDataBind struct {
 }
 
 type SaveJinsMemeDataReq struct {
-	AccessToken string    `json:"access_token"`
-	StartTime   time.Time `json:"start_time" bson:"start_time"`
-	EndTime     time.Time `json:"end_time" bson:"end_time"`
+	AccessToken string `json:"access_token"`
+	StartTime   string `json:"start_time" bson:"start_time"`
+	EndTime     string `json:"end_time" bson:"end_time"`
 }
 
 type SaveJinsMemeDataRes struct {
