@@ -2,6 +2,7 @@ package jinsmeme
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -74,6 +75,8 @@ func GetJinsMemeToken(c echo.Context) error {
 	body, _ := ioutil.ReadAll(resp.Body)
 
 	json.Unmarshal(body, &resRoot)
+	fmt.Println(body)
+	fmt.Println(resRoot.Scope)
 
 	accessTokenSave.AccessToken = resRoot.AccessToken
 
