@@ -55,7 +55,7 @@ func SaveJinsMemeData(c echo.Context) error {
 
 	// }
 	u, err := url.Parse("https://apis.jins.com/meme/v1/users/me/official/computed_data?date_from=" + req.StartTime + "&date_to=" + req.EndTime)
-
+	fmt.Println(u.String())
 	reqJ, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
 		return err
