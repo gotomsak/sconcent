@@ -39,8 +39,8 @@ func SaveJinsMemeData(c echo.Context) error {
 	db.First(&token, "user_id = ?", bind.UserID)
 	// fmt.Println(token.AccessToken)
 	req := models.SaveJinsMemeDataReq{}
-	req.StartTime = bind.StartTime.Format("2006-01-02T15:04:05Z07:00")
-	req.EndTime = bind.EndTime.Format("2006-01-02T15:04:05Z07:00")
+	req.StartTime = bind.StartTime.Format("2006-01-02T15:04:05") + "+09:00"
+	req.EndTime = bind.EndTime.Format("2006-01-02T15:04:05") + "+09:00"
 	req.AccessToken = token.AccessToken
 	fmt.Println(req.StartTime)
 	fmt.Println(req.EndTime)
