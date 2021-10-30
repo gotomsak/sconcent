@@ -1,11 +1,11 @@
 package jinsmeme
 
 import (
+	"context"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"os"
 	"reflect"
 	"strings"
 
@@ -15,7 +15,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func GetJinsMemeToken(c echo.Context) error {
+func SaveJinsMemeData(c echo.Context) error {
 	sess, err := session.Get("session", c)
 
 	if err != nil {
@@ -25,17 +25,21 @@ func GetJinsMemeToken(c echo.Context) error {
 	if b, _ := sess.Values["authenticated"]; b != true {
 		return c.String(http.StatusUnauthorized, "401")
 	}
-	bind := models.GetJinsMemeTokenBind{}
+	bind := models.SaveJinsMemeDataBind{}
 
 	if err := c.Bind(&bind); err != nil {
 		return c.JSON(500, "concentratioon not found")
 	}
-	req := models.GetJinsMemeTokenReq{}
-	req.Code = bind.Code
-	req.ClientSecret = os.Getenv("JINS_MEME_SECRET")
-	req.ClientID = os.Getenv("JINS_MEME_ID")
-	req.GrantType = "authorization_code"
-	req.RedirectUri = "https://fland.kait-matsulab.com/callback"
+	token := models.GetJinsMemeTokenSave{}
+
+	db := utils.SqlConnect()
+	defer db.Close()
+	db.First(&token, "user_id = ?", bind.UserID)
+
+	req := models.SaveJinsMemeDataReq{}
+	req.StartTime = bind.StartTime
+	req.EndTime = bind.EndTime
+	req.AccessToken = token.AccessToken
 
 	queryValue := url.Values{}
 	rv := reflect.ValueOf(req)
@@ -49,11 +53,12 @@ func GetJinsMemeToken(c echo.Context) error {
 
 	}
 
-	reqJ, err := http.NewRequest("POST", "https://apis.jins.com/meme/v1/oauth/token", strings.NewReader(queryValue.Encode()))
+	reqJ, err := http.NewRequest("GET", "https://apis.jins.com/meme/v1/users/me/official/computed_data", strings.NewReader(queryValue.Encode()))
 	if err != nil {
 		return err
 	}
-	reqJ.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	reqJ.Header.Set("Accept", "application/json")
+	reqJ.Header.Set("Authorization", "Bearer "+req.AccessToken)
 
 	client := &http.Client{}
 
@@ -66,29 +71,25 @@ func GetJinsMemeToken(c echo.Context) error {
 	accessTokenSave := models.GetJinsMemeTokenSave{}
 	accessTokenSave.UserID = bind.UserID
 
-	db := utils.SqlConnect()
-	defer db.Close()
-
-	var resRoot models.GetJinsMemeTokenRes
+	var resRoot models.SaveJinsMemeDataRes
 
 	body, _ := ioutil.ReadAll(resp.Body)
 
 	json.Unmarshal(body, &resRoot)
 
-	accessTokenSave.AccessToken = resRoot.AccessToken
+	save := models.SaveJinsMemeDataSave{}
+	save.ConcDataID = bind.ConcDataID
+	save.SaveJinsMemeDataRes = resRoot
 
-	old := models.GetJinsMemeTokenSave{}
+	mc, ctx := utils.MongoConnect()
+	defer mc.Disconnect(ctx)
+	dbColl := mc.Database("gotoSys").Collection("JinsMemeData")
 
-	err = db.Where("user_id = ?", accessTokenSave.UserID).First(&old).Error
-	if err != nil {
-		err = db.Create(&accessTokenSave).Error
-	} else {
-		err = db.Model(&accessTokenSave).Where("user_id = ?", accessTokenSave.UserID).Update("access_token", accessTokenSave.AccessToken).Error
-	}
+	res, err := dbColl.InsertOne(context.Background(), req)
 
 	if err != nil {
 		return err
 	}
 
-	return c.JSON(200, resRoot)
+	return c.JSON(200, res)
 }

@@ -66,7 +66,7 @@ func router() *echo.Echo {
 	e.POST("/save_questionnaire", learning.SaveQuestionnaire)
 
 	e.POST("/get_jins_meme_token", jinsmeme.GetJinsMemeToken)
-
+	e.POST("/save_jins_meme_data", jinsmeme.SaveJinsMemeData)
 	return e
 }
 
