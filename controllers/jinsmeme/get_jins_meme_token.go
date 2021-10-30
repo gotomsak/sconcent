@@ -36,6 +36,7 @@ func GetJinsMemeToken(c echo.Context) error {
 	req.ClientID = os.Getenv("JINS_MEME_ID")
 	req.GrantType = "authorization_code"
 	req.RedirectUri = "https://fland.kait-matsulab.com/callback"
+	req.Scope = "official"
 
 	queryValue := url.Values{}
 	rv := reflect.ValueOf(req)
