@@ -21,7 +21,6 @@ type GetJinsMemeTokenReq struct {
 	RedirectUri  string `json:"redirect_uri"`
 	ClientID     string `json:"client_id"`
 	ClientSecret string `json:"client_secret"`
-	Scope        string `json:"scope"`
 }
 
 type GetJinsMemeTokenBind struct {
