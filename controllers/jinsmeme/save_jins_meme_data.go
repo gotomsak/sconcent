@@ -7,8 +7,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"reflect"
-	"strings"
 
 	"github.com/gotomsak/sconcent/models"
 	"github.com/gotomsak/sconcent/utils"
@@ -45,19 +43,20 @@ func SaveJinsMemeData(c echo.Context) error {
 	fmt.Println(req.StartTime)
 	fmt.Println(req.EndTime)
 
-	queryValue := url.Values{}
-	rv := reflect.ValueOf(req)
-	rt := rv.Type()
+	// queryValue := url.Values{}
+	// rv := reflect.ValueOf(req)
+	// rt := rv.Type()
 
-	for i := 0; i < rt.NumField(); i++ {
-		field := rt.Field(i)
+	// for i := 0; i < rt.NumField(); i++ {
+	// 	field := rt.Field(i)
 
-		value := rv.FieldByName(field.Name)
-		queryValue.Add(field.Tag.Get("json"), value.String())
+	// 	value := rv.FieldByName(field.Name)
+	// 	queryValue.Add(field.Tag.Get("json"), value.String())
 
-	}
+	// }
+	u, err := url.Parse("https://apis.jins.com/meme/v1/users/me/official/computed_data?date_from=" + req.StartTime + "&date_to=" + req.EndTime)
 
-	reqJ, err := http.NewRequest("GET", "https://apis.jins.com/meme/v1/users/me/official/computed_data", strings.NewReader(queryValue.Encode()))
+	reqJ, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
 		return err
 	}
