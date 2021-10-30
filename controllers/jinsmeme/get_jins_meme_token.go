@@ -77,6 +77,7 @@ func GetJinsMemeToken(c echo.Context) error {
 	json.Unmarshal(body, &resRoot)
 	fmt.Println(body)
 	fmt.Println(resRoot.Scope)
+	fmt.Println(resRoot)
 
 	accessTokenSave.AccessToken = resRoot.AccessToken
 
