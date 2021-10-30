@@ -85,7 +85,7 @@ func SaveJinsMemeData(c echo.Context) error {
 	defer mc.Disconnect(ctx)
 	dbColl := mc.Database("gotoSys").Collection("JinsMemeData")
 
-	res, err := dbColl.InsertOne(context.Background(), req)
+	res, err := dbColl.InsertOne(context.Background(), save)
 
 	if err != nil {
 		return err
