@@ -3,6 +3,7 @@ package jinsmeme
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -34,8 +35,9 @@ func SaveJinsMemeData(c echo.Context) error {
 
 	db := utils.SqlConnect()
 	defer db.Close()
+	fmt.Println(bind.UserID)
 	db.First(&token, "user_id = ?", bind.UserID)
-
+	fmt.Println(token.AccessToken)
 	req := models.SaveJinsMemeDataReq{}
 	req.StartTime = bind.StartTime
 	req.EndTime = bind.EndTime
