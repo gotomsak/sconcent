@@ -79,7 +79,7 @@ func SaveJinsMemeData(c echo.Context) error {
 	var resRoot models.SaveJinsMemeDataRes
 
 	body, _ := ioutil.ReadAll(resp.Body)
-
+	fmt.Println(resp.StatusCode)
 	json.Unmarshal(body, &resRoot)
 	fmt.Println(body)
 	fmt.Println(resRoot)
