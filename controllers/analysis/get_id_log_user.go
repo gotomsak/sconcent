@@ -3,8 +3,6 @@ package analysis
 import (
 	"fmt"
 	"net/http"
-	"reflect"
-	"strconv"
 
 	"github.com/gotomsak/sconcent/models"
 	"github.com/gotomsak/sconcent/utils"
@@ -22,18 +20,15 @@ func GetIDLogUser(c echo.Context) error {
 		return c.String(http.StatusUnauthorized, "401")
 	}
 
-	if b, _ := sess.Values["admin_user_id"]; b == nil {
+	if b, _ := sess.Values["user_id"]; b == nil {
 		return c.String(http.StatusUnauthorized, "401")
 	}
-
-	userID, _ := strconv.Atoi(c.Param("user_id"))
-	fmt.Println(reflect.TypeOf(c.Param("user_id")))
 
 	res := new(models.AdminGetIDLogUserRes)
 	db := utils.SqlConnect()
 	defer db.Close()
-	// getIDLog := new(models.GetIDLog)
-	db.Where("user_id = ?", userID).Find(&res.GetIDLogUser)
+
+	db.Where("user_id = ?", sess.Values["user_id"]).Find(&res.GetIDLogUser)
 	fmt.Println(res.GetIDLogUser)
 
 	return c.JSON(http.StatusOK, res)

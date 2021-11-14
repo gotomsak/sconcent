@@ -44,9 +44,11 @@ func router() *echo.Echo {
 	e.POST("/save_concent", recording.SaveConcentration)
 	e.POST("/save_face_point", recording.SaveFacePoint)
 	e.GET("/get_rec_all", analysis.GetRecAll)
+	e.GET("/get_rec_user_date/:conc_id", analysis.GetRecUserDate)
 	e.POST("/save_concent_split", recording.SaveConcentSplit)
 	e.POST("/save_environment", environment.SaveEnvironment)
 	e.GET("/get_environment", environment.GetEnvironment)
+	e.GET("/get_id_log_user", analysis.GetIDLogUser)
 
 	e.POST("/admin_signin", admin.AdminSignin)
 	e.POST("/admin_signup", admin.AdminSignup)
