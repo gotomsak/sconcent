@@ -112,6 +112,41 @@ type Questionnaire struct {
 	Nonsense              int  `json:"nonsense"`      // デタラメ
 }
 
+type Genre struct {
+	gorm.Model
+	Genre string `json:"genre"`
+}
+
+type Season struct {
+	gorm.Model
+	Season string `json:"season"`
+}
+
+// Question questionテーブルのstruct
+type OnlyQuestion struct {
+	gorm.Model
+	Question    string `json:"question" gorm:"type:text"`
+	QimgPath    string `json:"qimg_path"`
+	Mistake1    string `json:"mistake1"`
+	Mistake2    string `json:"mistake2"`
+	Mistake3    string `json:"mistake3"`
+	Ans         string `json:"ans"`
+	MimgPath1   string `json:"mimg_path1"`
+	MimgPath2   string `json:"mimg_path2"`
+	MimgPath3   string `json:"mimg_path3"`
+	AimgPath    string `json:"aimg_path"`
+	SeasonID    uint   `json:"season_id"`
+	Season      Season `gorm:"foreignKey:SeasonID"`
+	QuestionNum string `json:"question_num"`
+	GenreID     uint   `json:"genre_id"`
+	Genre       Genre  `gorm:"foreignKey:GenreID"`
+}
+
+type AdminSelectQuestion struct {
+	gorm.Model
+	OnlyQuestionIDList []uint `json:"only_question_id_list"`
+}
+
 // // Frequency 最高最低頻度
 // type Frequency struct {
 // 	gorm.Model

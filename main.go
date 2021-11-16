@@ -74,8 +74,9 @@ func router() *echo.Echo {
 
 func main() {
 	utils.EnvLoad()
-	e := router()
+	// e := router()
 
-	e.Logger.Fatal(e.Start(":1323"))
+	// e.Logger.Fatal(e.Start(":1323"))
+	Normalization()
 	// e.Logger.Fatal(e.StartTLS(":1323", "./fullchain.pem", "./privkey.pem"))
 }
