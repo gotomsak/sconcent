@@ -20,7 +20,6 @@ func CheckAnswerSection(c echo.Context) error {
 	if b, _ := sess.Values["authenticated"]; b != true {
 		return c.String(http.StatusUnauthorized, "401")
 	}
-	sq := c.QueryParam("select_question_id")
 
 	cas := new(models.CheckAnswerSectionBind)
 	if err = c.Bind(cas); err != nil {
@@ -47,7 +46,7 @@ func CheckAnswerSection(c echo.Context) error {
 		UserID:              cas.UserID,
 		AnswerResultIDs:     resID,
 		CorrectAnswerNumber: cas.CorrectAnswerNumber,
-		SelectQuestionID:    sq,
+		SelectQuestionID:    cas.SelectQuestionID,
 		ConcID:              cas.ConcID,
 		StartTime:           utils.StringToTime(cas.StartTime),
 		EndTime:             utils.StringToTime(cas.EndTime),

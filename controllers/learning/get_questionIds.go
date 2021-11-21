@@ -23,7 +23,7 @@ func GetQuestionIds(c echo.Context) error {
 	if b, _ := sess.Values["authenticated"]; b != true {
 		return c.String(http.StatusUnauthorized, "401")
 	}
-	sq := c.QueryParam("select_question_id")
+	sq := c.Param("select_question_id")
 
 	db := utils.SqlConnect()
 	defer db.Close()
@@ -43,7 +43,10 @@ func GetQuestionIds(c echo.Context) error {
 			fmt.Println("can't convert")
 		}
 
-		dbColl := mc.Database("learning").Collection("select_question")
+		dbColl := mc.Database("learning").Collection("select_question_ids")
+		fmt.Println(sq)
+		fmt.Println(res)
+		fmt.Println(filter)
 		err = dbColl.FindOne(context.Background(), bson.D{{"_id", filter}}).Decode(&res)
 		gqi := models.GetQuestionIDs{
 			QuestionIDs: res.SelectQuestionIDs,
