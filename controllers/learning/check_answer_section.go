@@ -20,6 +20,7 @@ func CheckAnswerSection(c echo.Context) error {
 	if b, _ := sess.Values["authenticated"]; b != true {
 		return c.String(http.StatusUnauthorized, "401")
 	}
+	sq := c.QueryParam("select_question_id")
 
 	cas := new(models.CheckAnswerSectionBind)
 	if err = c.Bind(cas); err != nil {
@@ -33,8 +34,8 @@ func CheckAnswerSection(c echo.Context) error {
 	mc, ctx := utils.MongoConnect()
 	defer mc.Disconnect(ctx)
 
-	results := mc.Database("sconcent").Collection("answer_result_sectoin_ids")
-	res, err := results.InsertOne(context.Background(), models.Results{ResultIDs: cas.AnswerResultIDs})
+	results := mc.Database("learning").Collection("answer_result_ids")
+	res, err := results.InsertOne(context.Background(), models.AnswerResultIDs{AnswerResultIDs: cas.AnswerResultIDs})
 	var resID string
 	if oid, ok := res.InsertedID.(primitive.ObjectID); ok {
 		resID = oid.Hex()
@@ -46,6 +47,7 @@ func CheckAnswerSection(c echo.Context) error {
 		UserID:              cas.UserID,
 		AnswerResultIDs:     resID,
 		CorrectAnswerNumber: cas.CorrectAnswerNumber,
+		SelectQuestionID:    sq,
 		ConcID:              cas.ConcID,
 		StartTime:           utils.StringToTime(cas.StartTime),
 		EndTime:             utils.StringToTime(cas.EndTime),

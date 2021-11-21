@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/jinzhu/gorm"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // GetQuestionIDs 解く問題のIDと解いた問題のIDのstruct
@@ -73,6 +74,7 @@ type AnswerResultSection struct {
 	gorm.Model
 	UserID              uint      `json:"user_id" gorm:"not null"`
 	AnswerResultIDs     string    `json:"answer_result_ids"`
+	SelectQuestionID    string    `json:"select_question_id"`
 	CorrectAnswerNumber uint      `json:"correct_answer_number" gorm:"not null"`
 	ConcID              string    `json:"conc_id"`
 	StartTime           time.Time `json:"start_time"`
@@ -84,6 +86,7 @@ type CheckAnswerSectionBind struct {
 	UserID              uint     `json:"user_id" gorm:"not null"`
 	AnswerResultIDs     []uint64 `json:"answer_result_ids" gorm:"type:text;not null"`
 	ConcID              string   `json:"conc_id"`
+	SelectQuestionID    string   `json:"select_question_id"`
 	CorrectAnswerNumber uint     `json:"correct_answer_number" gorm:"not null"`
 	StartTime           string   `json:"start_time"`
 	EndTime             string   `json:"end_time"`
@@ -142,47 +145,25 @@ type OnlyQuestion struct {
 	Genre       Genre  `gorm:"foreignKey:GenreID"`
 }
 
-type AdminSelectQuestion struct {
+type SelectQuestion struct {
 	gorm.Model
-	OnlyQuestionIDList []uint `json:"only_question_id_list"`
+	SelectQuestionName string `json:"select_question_name"`
+	SelectQuestionIDs  string `json:"select_question_ids"`
 }
 
-// // Frequency 最高最低頻度
-// type Frequency struct {
-// 	gorm.Model
-// 	UserID               uint    `gorm:"not null"`
-// 	MaxBlinkFrequency    float64 `json:"max_blink_frequency"`
-// 	MinBlinkFrequency    float64 `json:"min_blink_frequency"`
-// 	MaxFaceMoveFrequency float64 `json:"max_face_move_frequency"`
-// 	MinFaceMoveFrequency float64 `json:"min_face_move_frequency"`
-// 	MaxBlinkNumber       float64 `json:"max_blink_number"`
-// 	MinBlinkNumber       float64 `json:"min_blink_number"`
-// 	MaxFaceMoveNumber    float64 `json:"max_face_move_number"`
-// 	MinFaceMoveNumber    float64 `json:"min_face_move_number"`
-// }
+// Results answer_result_idsをnosqlに保存
+type AnswerResultIDs struct {
+	AnswerResultIDs []uint64 `json:"answer_result_ids"`
+}
 
-// ConcentrationData 集中度の保存
-// type ConcentrationData struct {
-// 	UserID                uint      `json:"user_id"`
-// 	AnswerResultSectionID uint      `json:"answer_result_section_id"`
-// 	FaceImagePath         string    `json:"face_image_path"`
-// 	Blink                 []float64 `json:"blink"`
-// 	FaceMove              []float64 `json:"face_move"`
-// 	Angle                 []float64 `json:"angle"`
-// 	W                     []float64 `json:"w"`
-// 	C1                    []float64 `json:"c1"`
-// 	C2                    []float64 `json:"c2"`
-// 	C3                    []float64 `json:"c3"`
-// }
+// SelectQuestionIDs select_question_idsをmongoに保存
+type SelectQuestionIDs struct {
+	ID                primitive.ObjectID `json:"id" bson:"_id,omitempty"`
+	SelectQuestionIDs []uint             `json:"select_question_ids"`
+}
 
-// // ConcentrationData 集中度の保存
-// type ConcentrationData struct {
-// 	ConcentrationData []interface{} `json:"concentration_data"`
-// }
-
-// Results answer_result_section_idsをnosqlに保存
-type Results struct {
-	ResultIDs []uint64 `json:"answer_result_ids"`
+type GetSelectQuestionRes struct {
+	SelectQuestion []SelectQuestion `json:"select_question"`
 }
 
 type GetQuestionGymBind struct {

@@ -41,6 +41,7 @@ func SqlConnect() (database *gorm.DB) {
 	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.Genre{})
 	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.Season{})
 	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.GetJinsMemeTokenSave{})
+	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.SelectQuestion{})
 	// db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.Frequency{})
 	// db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.ConcentrationData{})
 	// db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&models.SonConcentrationData{})

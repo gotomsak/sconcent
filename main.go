@@ -60,6 +60,9 @@ func router() *echo.Echo {
 	e.GET("/admin_get_id_log_user/:user_id", admin.AdminGetIDLogUser)
 	e.GET("/admin_get_rec_user_date/:conc_id", admin.AdminGetRecUserDate)
 	e.GET("/admin_get_face_point/:face_point_id", admin.AdminGetFacePoint)
+	e.GET("/admin_get_select_question", admin.AdminGetSelectQuestion)
+	e.GET("/admin_get_question_all", admin.AdminGetQuestionAll)
+	e.POST("/admin_save_select_question", admin.AdminSaveSelectQuestion)
 
 	e.POST("/question_ids", learning.GetQuestionIds)
 	e.GET("/question", learning.GetQuestion)
