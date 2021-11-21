@@ -1,6 +1,8 @@
 package learning
 
 import (
+	"context"
+	"fmt"
 	"math/rand"
 	"net/http"
 	"time"
@@ -9,6 +11,8 @@ import (
 	"github.com/gotomsak/sconcent/utils"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func GetQuestionIds(c echo.Context) error {
@@ -19,10 +23,37 @@ func GetQuestionIds(c echo.Context) error {
 	if b, _ := sess.Values["authenticated"]; b != true {
 		return c.String(http.StatusUnauthorized, "401")
 	}
+	sq := c.Param("select_question_id")
 
 	db := utils.SqlConnect()
 	defer db.Close()
 	questions := models.Question{}
+
+	if sq != "none" {
+		sqdb := new(models.SelectQuestion)
+		err = db.First(&sqdb, "id = ?", sq).Error
+		if err != nil {
+			fmt.Println("sqdata not found")
+		}
+		res := new(models.SelectQuestionIDs)
+		mc, ctx := utils.MongoConnect()
+		defer mc.Disconnect(ctx)
+		filter, err := primitive.ObjectIDFromHex(sq)
+		if err != nil {
+			fmt.Println("can't convert")
+		}
+
+		dbColl := mc.Database("learning").Collection("select_question_ids")
+		fmt.Println(sq)
+		fmt.Println(res)
+		fmt.Println(filter)
+		err = dbColl.FindOne(context.Background(), bson.D{{"_id", filter}}).Decode(&res)
+		gqi := models.GetQuestionIDs{
+			QuestionIDs: res.SelectQuestionIDs,
+		}
+		return c.JSON(http.StatusOK, gqi)
+	}
+
 	db.Last(&questions)
 	var count int
 	db.Table("questions").Count(&count)

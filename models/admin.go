@@ -48,6 +48,15 @@ type AdminGetUserAllRes struct {
 	UsersInfo []UserInfo `json:"users_info"`
 }
 
+type AdminGetQuestionAllRes struct {
+	QuestionAll []Question `json:"question_all"`
+}
+
+type AdminSaveSelectQuestionBind struct {
+	SelectQuestionName string `json:"select_question_name"`
+	SelectQuestionIDs  []uint `json:"select_question_ids"`
+}
+
 // // AdminGetRecAllRes
 // type AdminGetRecAllRes struct {
 
