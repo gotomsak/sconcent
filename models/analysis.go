@@ -24,3 +24,8 @@ type GetFacePointRes struct {
 	ID           primitive.ObjectID `json:"id" bson:"_id"`
 	FacePointAll []interface{}      `json:"face_point_all" bson:"face_point_all"`
 }
+
+type GetSelectAnswerResultSection struct {
+	Concentration       GetConcentrationRes `json:"concentration"`
+	AnswerResultSection AnswerResultSection `json:"answer_result_section"`
+}

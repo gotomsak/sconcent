@@ -57,6 +57,10 @@ type AdminSaveSelectQuestionBind struct {
 	SelectQuestionIDs  []uint `json:"select_question_ids"`
 }
 
+type AdminGetSelectAnswerResultSectionRes struct {
+	SelectAnswerResultSection []GetSelectAnswerResultSection `json:"select_answer_result_section"`
+}
+
 // // AdminGetRecAllRes
 // type AdminGetRecAllRes struct {
 
