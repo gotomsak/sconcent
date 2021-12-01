@@ -153,7 +153,8 @@ type SelectQuestion struct {
 
 // Results answer_result_idsをnosqlに保存
 type AnswerResultIDs struct {
-	AnswerResultIDs []uint64 `json:"answer_result_ids"`
+	ID              primitive.ObjectID `json:"id" bson:"_id,omitempty"`
+	AnswerResultIDs []uint64           `json:"answer_result_ids"`
 }
 
 // SelectQuestionIDs select_question_idsをmongoに保存

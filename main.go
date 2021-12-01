@@ -82,6 +82,6 @@ func main() {
 	e := router()
 
 	e.Logger.Fatal(e.Start(":1323"))
-	// Normalization()
+	// normalization.CorrectRefacter()
 	// e.Logger.Fatal(e.StartTLS(":1323", "./fullchain.pem", "./privkey.pem"))
 }
