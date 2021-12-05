@@ -28,19 +28,21 @@ func CorrectRefacter() {
 	for rows.Next() {
 		var ars models.AnswerResultSection
 		var ari models.AnswerResultIDs
-		var ar models.AnswerResult
+
 		var cn uint = 0
 		db.ScanRows(rows, &ars)
-		// fmt.Println(ars)
+
 		filter, err := primitive.ObjectIDFromHex(ars.AnswerResultIDs)
 		if err != nil {
 			fmt.Println("not Filter")
 		}
 		err = dbColl.FindOne(context.Background(), bson.D{{"_id", filter}}).Decode(&ari)
-		fmt.Println(ari)
+
 		for _, v := range ari.AnswerResultIDs {
+			var ar models.AnswerResult
 			db.Where("id = ?", v).First(&ar)
-			fmt.Println(ar)
+			fmt.Println(ar.ID)
+			fmt.Println(v)
 			if ar.AnswerResult == "correct" {
 				cn += 1
 			}
