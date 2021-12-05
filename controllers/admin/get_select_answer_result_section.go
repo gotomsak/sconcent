@@ -2,6 +2,7 @@ package admin
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/gotomsak/sconcent/models"
@@ -34,18 +35,18 @@ func AdminGetSelectAnswerResultSection(c echo.Context) error {
 
 	mc, ctx := utils.MongoConnect()
 	defer mc.Disconnect(ctx)
-
-	rows, err := db.Where("select_question_id ?", sqi).Find(&models.AnswerResultSection{}).Rows()
+	var ars []models.AnswerResultSection
+	db.Where("select_question_id = ?", sqi).Find(&ars)
+	// fmt.Println(findRes)
 	dbColl := mc.Database("gotoSys").Collection("gotoConc")
-	for rows.Next() {
-		var ars models.AnswerResultSection
+	for i := range ars {
 
 		var gsars models.GetSelectAnswerResultSection
-		db.ScanRows(rows, &ars)
-		filter, err := primitive.ObjectIDFromHex(ars.ConcID)
-
+		// db.ScanRows(rows, &ars)
+		filter, err := primitive.ObjectIDFromHex(ars[i].ConcID)
+		fmt.Println(ars[i].ID)
 		err = dbColl.FindOne(context.Background(), bson.D{{"_id", filter}}).Decode(&gsars.Concentration)
-		gsars.AnswerResultSection = ars
+		gsars.AnswerResultSection = ars[i]
 		res.SelectAnswerResultSection = append(res.SelectAnswerResultSection, gsars)
 		if err != nil {
 			return c.String(http.StatusBadRequest, "bat")
