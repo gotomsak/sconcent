@@ -29,7 +29,7 @@ func CorrectRefacter() {
 		var ars models.AnswerResultSection
 		var ari models.AnswerResultIDs
 		var ar models.AnswerResult
-		var cn uint
+		var cn uint = 0
 		db.ScanRows(rows, &ars)
 		// fmt.Println(ars)
 		filter, err := primitive.ObjectIDFromHex(ars.AnswerResultIDs)
