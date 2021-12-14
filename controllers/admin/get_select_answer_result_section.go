@@ -47,6 +47,7 @@ func AdminGetSelectAnswerResultSection(c echo.Context) error {
 		fmt.Println(ars[i].ID)
 		err = dbColl.FindOne(context.Background(), bson.D{{"_id", filter}}).Decode(&gsars.Concentration)
 		gsars.AnswerResultSection = ars[i]
+		db.Where("answer_result_section_id = ?", ars[i].ID).First(&gsars.Questionnaire)
 		res.SelectAnswerResultSection = append(res.SelectAnswerResultSection, gsars)
 		if err != nil {
 			return c.String(http.StatusBadRequest, "bat")
