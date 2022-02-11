@@ -1,0 +1,22 @@
+<mxfile>
+    <diagram id="n0STEYiQji86C_9OtyRO" name="ページ1">
+        <mxGraphModel dx="678" dy="398" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="gotoConc&#10;&#10;{&#10;    _id: ユニークID,&#10;    type: 'システム名',&#10;    userid: ユーザーID,&#10;    measurement: 'gotoConc',&#10;    work: '作業名',&#10;    memo: 'メモ',&#10;    concentration: {&#10;        c1: [c1のリスト],&#10;        c2: [c2のリスト],&#10;        c3: [c3のリスト],&#10;        w: [wのリスト],&#10;        date: [日付],&#10;        max_freq_id: 最大頻度のID,&#10;        min_freq_id: 最低頻度のID,&#10;        _face_point_id: 'すべてのlandmark'&#10;    }&#10;}" style="shape=note;size=20;fillColor=none;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="280" y="540" width="240" height="300" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="maxFrequency&#10;&#10;{&#10;    _id: ユニークID&#10;    userid: ユーザーID,&#10;    maxfrequencydata: {&#10;        maxblink: 最大瞬き頻度,&#10;        maxfacemove: 最大の顔の動き,&#10;        facepointall: [すべてのlandmark]&#10;&#10;    }&#10;}" style="shape=note;size=20;fillColor=none;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="570" y="540" width="250" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="facePoint&#10;&#10;{&#10;    _id: ユニークID&#10;    face_point_all&#10;} " style="shape=note;size=20;fillColor=none;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="280" y="850" width="250" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="minFrequency&#10;&#10;{&#10;    _id: ユニークID&#10;    userid: ユーザーID,&#10;    minfrequencydata: {&#10;        minblink: 最低瞬き頻度,&#10;        minfacemove: 最低の顔の動き,&#10;        facepointall: [すべてのlandmark]&#10;    }&#10;}" style="shape=note;size=20;fillColor=none;align=left;" vertex="1" parent="1">
+                    <mxGeometry x="570" y="780" width="250" height="190" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

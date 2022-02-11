@@ -28,4 +28,5 @@ type GetFacePointRes struct {
 type GetSelectAnswerResultSection struct {
 	Concentration       GetConcentrationRes `json:"concentration"`
 	AnswerResultSection AnswerResultSection `json:"answer_result_section"`
+	Questionnaire       Questionnaire       `json:"questionnaire"`
 }
